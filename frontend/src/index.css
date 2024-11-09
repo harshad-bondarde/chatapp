@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body{
+    background: url(.././public/bg.avif);
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar {
+    /* Customize the scrollbar width */
+    width:6px;
+
+}
+
+::-webkit-scrollbar-track {
+    /* Customize the scrollbar track */
+    background: black;
+}
+
+::-webkit-scrollbar-thumb {
+    /* Customize the scrollbar thumb */
+    border-radius: 10px;
+}
