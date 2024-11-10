@@ -9,10 +9,12 @@ const SendInput = () => {
     const [ message,setMessage]=useState("") 
     const { selectedUser }=useSelector(state=>state.user)
     const { messages } =useSelector(state=>state.message)
+    const [loading,setLoading]=useState(false)
     // console.log(messages )
 
     const onSubmitHandler=async (e)=>{
         e.preventDefault()
+        setLoading(true)
         try {
             const res=await axios.post(`http://localhost:3000/api/v1/message/send/${selectedUser._id}`,{
                 message
@@ -20,9 +22,12 @@ const SendInput = () => {
                 timeout:10000
             })
             // console.log(res)
+            if(res) 
+                setLoading(false)
             dispatch(setMessages([...messages,res?.data?.newMessage]))
             setMessage("")
         } catch (error) {
+            setLoading(false)
             console.log(error) 
         }
     }
@@ -38,7 +43,11 @@ const SendInput = () => {
                     placeholder='Send a message...' />
             
                 <button type='submit' className='absolute flex inset-y-0 end-0 items-center pr-3'>
-                    <IoSend />
+                    {   !loading ?
+                            <IoSend />
+                            :
+                        <span className="loading loading-spinner loading-xs"></span>  
+                    }
                 </button>
             </div>
         </form>

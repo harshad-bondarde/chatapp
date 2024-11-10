@@ -8,7 +8,7 @@ import { setAuthUser } from '../Redux/userSlice'
 const Login = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch();
-
+  const [loading,setLoading]=useState(false)
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -16,12 +16,14 @@ const Login = () => {
 
   const handleSubmit=async (e)=>{
     e.preventDefault()
-
+    setLoading(true)
     try {
         const res=await axios.post('http://localhost:3000/api/v1/user/login',user)
         
         // console.log(res.data)
         dispatch(setAuthUser(res.data))
+        if(res)
+            setLoading(false)
         if(res.status==200){
             toast.success("Logged in")
             setUser({
@@ -34,6 +36,7 @@ const Login = () => {
 
     } catch (error) {
         toast.error(error.response.data.message)
+        setLoading(false)
         console.log(error)
     }
 
@@ -79,10 +82,11 @@ const Login = () => {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className='btn btn-block btn-md mt-2 border-slate-700'
-              >Login</button>
+                  <button
+                    type="submit"
+                    className='btn btn-block btn-md mt-2 border-slate-700'
+                  > { !loading ? 'Login' : <span className="loading loading-spinner loading-xs"></span>} </button>
+                 
             </div>
 
           </form>

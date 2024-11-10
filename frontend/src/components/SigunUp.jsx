@@ -11,13 +11,17 @@ const SigunUp = () => {
         confirmPassword: "",
         gender: ""
     })
+    const [loading,setLoading]=useState(false)
 
     const handleSubmit=async (e)=>{
         e.preventDefault()
-
+        setLoading(true)
         try {
             const res=await axios.post('http://localhost:3000/api/v1/user/register',user)
             console.log(res)
+            if(res){
+                setLoading(false)
+            }
             if(res.data.success){
                 toast.success(res.data.message)
                 navigate("/login")
@@ -25,6 +29,7 @@ const SigunUp = () => {
         } catch (error) {
             toast.error(error.response.data.message)
             console.log(error)
+            setLoading(false)
         }
 
         setUser({
@@ -125,7 +130,14 @@ const SigunUp = () => {
                         </div>
 
                         <div>
-                            <button type='submit' className='btn btn-block btn-md mt-2 border-slate-700'>SignUp</button>
+                            <button type='submit' className='btn btn-block btn-md mt-2 border-slate-700'>
+                                {   
+                                    !loading?
+                                        'SignUp'
+                                    :
+                                    <span className="loading loading-spinner loading-xs"></span>
+                                }
+                            </button>
                         </div>
 
                     </form>

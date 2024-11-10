@@ -8,14 +8,23 @@ const Messages = () => {
   useGetMessages()
   useGetRealTimeMessage()
   const {messages}=useSelector(state=>state.message)
+  const { loadingMessageContainer }=useSelector(state=>state.message)
   console.log(messages)
   
   return (
     <div className='px-4 flex-1 overflow-auto'>
-      { 
-        messages 
-            &&
-        messages?.map((message)=><Message key={message._id} message={message}/>) 
+      { !loadingMessageContainer ?
+          <div>  
+            { 
+              messages 
+                  &&
+              messages?.map((message)=><Message key={message._id} message={message}/>) 
+            }
+          </div>
+          :
+          <div className='flex flex-col items-center mt-44'>
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
       }
     </div>
   )

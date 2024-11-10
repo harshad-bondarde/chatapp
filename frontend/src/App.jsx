@@ -7,7 +7,6 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { io  } from "socket.io-client"
-// import { setSocket } from './Redux/socketSlice'
 import { setOnlineUsers } from './Redux/userSlice'  
 
 
@@ -15,7 +14,6 @@ function App() {
   axios.defaults.withCredentials=true
   
   const {authUser}=useSelector(state=>state.user)
-  // const {socket}=useSelector(state=>state.socket)
   // console.log(authUser)
 
   const dispatch=useDispatch();
@@ -44,7 +42,7 @@ function App() {
   //       dispatch(setSocket(null))
   //     }
   //   }
-  // },[authUser])
+  // },[authUser]) //wrote in context 
   
   
   return (

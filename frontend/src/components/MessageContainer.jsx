@@ -6,6 +6,7 @@ import { SocketContext } from '../context/SocketContext'
 const MessageContainer = () => {
 
   const {selectedUser}=useSelector(state=>state.user)
+  const { loadingMessageContainer }=useSelector(state=>state.message)
   const {onlineUsers}=useContext(SocketContext)
   const isOnline=onlineUsers?.includes(selectedUser?._id)
   return (
@@ -27,6 +28,7 @@ const MessageContainer = () => {
                     </div>
                 </div>
           </div>
+
           <Messages/>
           <SendInput/>
         </div>

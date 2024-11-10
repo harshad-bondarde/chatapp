@@ -9,21 +9,26 @@ import { useDispatch,useSelector } from 'react-redux';
 
 
 const SideBar = () => {
+    const [loading,setLoading]=useState(false)
     const dispatch=useDispatch()
     const navigate=useNavigate();
     const {otherUsers}=useSelector(state=>state.user)
     const [search,setSearch]=useState('')
 
     const logOutHandler=async ()=>{
+        setLoading(true)
         try {
             const res=await axios.get("http://localhost:3000/api/v1/user/logout")
             console.log(res);
-
+            if(res){
+                setLoading(false)
+            }
             dispatch(setAuthUser(null))
             dispatch(setSelectedUser(null))
             toast.success(res.data.message);
             navigate("/login")
         } catch (error) {
+            setLoading(false)
             console.log(error)
         }
     }
@@ -61,7 +66,13 @@ const SideBar = () => {
             <OtherUsers />
             
             <div className='mt-2'>
-                <button onClick={logOutHandler} className='btn btn-sm'>Logout</button>
+                <button onClick={logOutHandler} className='btn btn-sm'>
+                    { !loading ?
+                        "Logout"
+                        :
+                       <span className="loading loading-spinner loading-xs"></span>
+                    }
+                </button>
             </div>
 
         </div>
