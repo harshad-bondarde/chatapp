@@ -71,7 +71,37 @@ const getMessage=async (req,res)=>{
     }
 }
 
+const deleteMessage=async (req,res)=>{
+    const { messageId }=req.body;
+    const senderId=req.userId
+    const receiverId=req.params.id
+    const conversation=await Conversation.findOne({
+        participants:{
+            $all:[senderId,receiverId]
+        }
+    })
+    if(!conversation){
+        return res.status(404).json({
+            message:"conversation doesn't exists"
+        })
+    }
+    
+    const messageIndex=conversation.messages.indexOf(messageId)
+    if(!messageIndex){
+        return res.status(404).json({
+            message:"message not found..."
+        })
+    }
+    conversation.messages.splice(messageIndex,1);
+    conversation.save();
+
+    return res.status(200).json({
+        message:"message deleted"
+    })
+}
+
 module.exports={
     sendMessage,
-    getMessage
+    getMessage ,
+    deleteMessage ,
 }
