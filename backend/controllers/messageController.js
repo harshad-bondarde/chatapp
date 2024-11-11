@@ -1,6 +1,8 @@
 const Conversation = require("../models/conversationModel");
 const Message=require('../models/messageModel')
 const {io,getReceiverSocketId}=require('../socket/socket')
+
+
 const sendMessage=async(req,res)=>{
     try {
         const senderId=req.userId;
@@ -82,21 +84,21 @@ const deleteMessage=async (req,res)=>{
     })
     if(!conversation){
         return res.status(404).json({
-            message:"conversation doesn't exists"
+            message:"Conversation doesn't exists"
         })
     }
     
     const messageIndex=conversation.messages.indexOf(messageId)
     if(!messageIndex){
         return res.status(404).json({
-            message:"message not found..."
+            message:"Message not found..."
         })
     }
     conversation.messages.splice(messageIndex,1);
-    conversation.save();
+    await conversation.save();
 
     return res.status(200).json({
-        message:"message deleted"
+        message:"Message Deleted"
     })
 }
 
