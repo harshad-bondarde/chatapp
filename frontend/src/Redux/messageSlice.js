@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const messageSlice=createSlice({
     name:"message",
     initialState:{
-        messages:null,
+        messages:[],
         loadingMessageContainer:false,
     },
     reducers:{
@@ -12,11 +12,17 @@ const messageSlice=createSlice({
         },
         setLoadingMessageContainer:(state,action)=>{
             state.loadingMessageContainer=action.payload
+        },
+        deleteMessage:(state,action)=>{
+            const messageId=action.payload;
+            const index=state.messages.findIndex((msg)=>msg._id==messageId)
+            if(index!=-1)            
+            state.messages.splice(index,1);
         }
     }
 })
 
 
-export const { setMessages ,setLoadingMessageContainer }=messageSlice.actions
+export const { setMessages ,setLoadingMessageContainer ,deleteMessage}=messageSlice.actions
 
 export default messageSlice.reducer

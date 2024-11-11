@@ -9,8 +9,7 @@ const Messages = () => {
   useGetRealTimeMessage()
   const {messages}=useSelector(state=>state.message)
   const { loadingMessageContainer }=useSelector(state=>state.message)
-  console.log(messages)
-  
+
   return (
     <div className='px-4 flex-1 overflow-auto'>
       { !loadingMessageContainer ?

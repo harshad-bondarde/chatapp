@@ -3,6 +3,7 @@ import { IoSend } from "react-icons/io5";
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessages } from '../Redux/messageSlice';
+import toast from 'react-hot-toast';
 
 const SendInput = () => {
     const dispatch=useDispatch()
@@ -27,6 +28,7 @@ const SendInput = () => {
             dispatch(setMessages([...messages,res?.data?.newMessage]))
             setMessage("")
         } catch (error) {
+            toast.error('Could not send the message try again')
             setLoading(false)
             console.log(error) 
         }
@@ -44,7 +46,11 @@ const SendInput = () => {
             
                 <button type='submit' className='absolute flex inset-y-0 end-0 items-center pr-3'>
                     {   !loading ?
-                            <IoSend />
+                            <>
+                                {  
+                                    message!="" ? <IoSend /> :null
+                                }        
+                            </>
                             :
                         <span className="loading loading-spinner loading-xs"></span>  
                     }

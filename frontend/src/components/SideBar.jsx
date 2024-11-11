@@ -19,7 +19,6 @@ const SideBar = () => {
         setLoading(true)
         try {
             const res=await axios.get("http://localhost:3000/api/v1/user/logout")
-            console.log(res);
             if(res){
                 setLoading(false)
             }

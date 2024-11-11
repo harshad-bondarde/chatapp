@@ -17,7 +17,6 @@ const OtherUser = ({user}) => {
     const { selectedUser } =useSelector(state=>state.user)
     const isOnline=onlineUsers?.includes(user._id)
 
-    console.log(onlineUsers)
     // console.log(selectedUser)
   return (
     <>

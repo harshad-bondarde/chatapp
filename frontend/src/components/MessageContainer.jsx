@@ -16,7 +16,7 @@ const MessageContainer = () => {
         <div className='md:min-w-[550px] flex flex-col '>
           
           <div className='flex bg-zinc-800 text-white px-4 py-2 items-center'> 
-                <div className={`w-12 h-12 avatar ${isOnline}`}>
+                <div className={`w-12 h-12 avatar ${isOnline ? 'online' : ""}`}>
                     <div className=' rounded-full'>
                         <img src={selectedUser?.profilePhoto} alt="user-profile" />
                     </div>

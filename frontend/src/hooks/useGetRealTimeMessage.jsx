@@ -7,13 +7,11 @@ const useGetRealTimeMessage = () => {
   const {socket}=useContext(SocketContext)
 
   const {messages}=useSelector(state=>state.message)
-  console.log(messages)
   const dispatch=useDispatch() 
 
   useEffect(()=>{
 
     socket?.on('newMessage',(newMessage)=>{
-        console.log(newMessage +" this is new message") 
         dispatch(setMessages([...messages,newMessage]))
     })
     return ()=>socket.off("newMessage")

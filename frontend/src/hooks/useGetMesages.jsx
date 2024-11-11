@@ -17,7 +17,6 @@ const useGetMessages = () => {
     
                 // console.log(res.data.messages)          
                 dispatch(setMessages(res.data.messages))  
-                console.log(res.data)
                 if(res){
                     dispatch(setLoadingMessageContainer(false))
                 }
