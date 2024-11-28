@@ -61,6 +61,7 @@ const getMessage=async (req,res)=>{
             }
         }).populate("messages")
         // console.log(conversation.messages)
+        console.log("hi")
         return res.status(200).json({
             messages:conversation?.messages
         })
@@ -96,6 +97,11 @@ const deleteMessage=async (req,res)=>{
     }
     conversation.messages.splice(messageIndex,1);
     await conversation.save();
+    // in progress ....
+    if(messageIndex){
+        const receiverSocketId=getReceiverSocketId(receiverId)
+        io.to(receiverSocketId).emit('deleteMessageInConversation',{ senderId , messageId })
+    }
 
     return res.status(200).json({
         message:"Message Deleted"

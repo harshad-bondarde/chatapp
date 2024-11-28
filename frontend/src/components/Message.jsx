@@ -24,6 +24,7 @@ const Message = ({ message }) => {
         })
         if(response.status==200){
           dispatch(deleteMessage(message._id))
+          
           toast.success(response.data.message)
         }else if(response.status==404){
           toast.error(response.data.message)
@@ -52,9 +53,6 @@ const Message = ({ message }) => {
             <div className="chat-bubble max-w-96">{message?.message}</div>
             { showOption?
                 <div className='flex mr-3 space-y-1 mb-1 ml-3 items-center space-x-1'>
-                  <div className='bg-green-400 mt-1 p-2 border-green-500 cursor-pointer hover:shadow-green-500 hover:shadow-md rounded-lg text-sm text-center font-medium text-white'>
-                      Edit
-                  </div> 
                   <div onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
                       Delete
                   </div>           
@@ -83,9 +81,6 @@ const Message = ({ message }) => {
           <div className='flex'>
             { showOption?
                 <div className='flex mr-3 space-y-1 mb-1 items-center space-x-1'>
-                    <div className='bg-green-400 mt-1 p-2 border-green-500 cursor-pointer hover:shadow-green-500 hover:shadow-md rounded-lg text-sm text-center font-medium text-white'>
-                        Edit
-                    </div> 
                     <div onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
                         Delete
                     </div>           
