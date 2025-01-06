@@ -6,6 +6,7 @@ const userSlice=createSlice({
         otherUsers:null,
         selectedUser:null,
         searchedUsers:[],
+        contacts:[],
         onlineUsers:null
     },
     reducers:{
@@ -28,11 +29,29 @@ const userSlice=createSlice({
         
         setOnlineUsers:(state,action)=>{
             state.onlineUsers=action.payload
+        },
+
+        setContacts:(state,action)=>{
+            state.contacts=action.payload
+        },
+
+        deleteFromContact:(state,action)=>{
+            const userToDelete=action.payload
+            state.contacts=state.contacts.filter(user=>user._id!=userToDelete._id)
         }
+
+        
 
     }
 })
 
-export const { setAuthUser , setOtherUsers , setSelectedUser ,setSearchedUsers ,setOnlineUsers}=userSlice.actions
+export const { setAuthUser ,
+               setOtherUsers , 
+               setSelectedUser ,
+               setSearchedUsers ,
+               setOnlineUsers ,
+               setContacts ,
+               deleteFromContact
+            }=userSlice.actions
 
 export default userSlice.reducer

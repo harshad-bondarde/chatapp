@@ -15,9 +15,10 @@ const messageSlice=createSlice({
         },
         deleteMessage:(state,action)=>{
             const messageId=action.payload;
-            const index=state.messages.findIndex((msg)=>msg._id==messageId)
-            if(index!=-1)            
-            state.messages.splice(index,1);
+            state.messages=state.messages.filter(message=>message._id!=messageId)
+            // const index=state.messages.findIndex((msg)=>msg._id==messageId)
+            // if(index!=-1)            
+            // state.messages.splice(index,1);
         }
     }
 })

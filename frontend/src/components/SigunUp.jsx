@@ -27,8 +27,8 @@ const SigunUp = () => {
                 navigate("/login")
             }
         } catch (error) {
-            toast.error(error.response.data.message)
             console.log(error)
+            toast.error(error.response.data.message)
             setLoading(false)
         }
 

@@ -22,7 +22,10 @@ const useGetRealTimeMessage = () => {
         console.log(senderId,messageId)
         dispatch(deleteMessage(messageId))
     })
-    return ()=>socket.off("newMessage")
+    return () => {
+      socket?.off("newMessage");
+      socket?.off("deleteMessageInConversation");
+    };
 
   },[socket,setMessages,messages])
 }

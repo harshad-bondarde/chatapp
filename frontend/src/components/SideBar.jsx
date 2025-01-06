@@ -9,11 +9,13 @@ import { useDispatch,useSelector } from 'react-redux';
 
 
 const SideBar = () => {
-    const [loading,setLoading]=useState(false)
     const dispatch=useDispatch()
     const navigate=useNavigate();
+
+    const [loading,setLoading]=useState(false)
     const {otherUsers}=useSelector(state=>state.user)
     const [search,setSearch]=useState('')
+    const [showContacts,setShowContacts]=useState(false)
 
     const logOutHandler=async ()=>{
         setLoading(true)
@@ -59,12 +61,20 @@ const SideBar = () => {
                 </button>
 
             </form>
+            <div className='flex justify-center text-sm gap-5 mt-1'>
+                <div onClick={()=>setShowContacts(false)} className={`border-2 p-1 cursor-pointer border-slate-500 rounded-lg text-white ${!showContacts ? `bg-gray-500 font-semibold`:``}`}>
+                    All Users
+                </div>
+                <div onClick={()=>{ setShowContacts(true)}} className={`border-2 p-1 cursor-pointer rounded-lg text-white border-slate-500 ${showContacts ? `bg-gray-500 font-semibold`:``}`}>
+                    Contacts
+                </div>
+            </div>
 
-            <div className='divider px-3'></div>
+            <hr className='border-slate-400 mt-3 mb-2' />
+
+            <OtherUsers showContacts={showContacts}/>
             
-            <OtherUsers />
-            
-            <div className='mt-2'>
+            <div className=''>
                 <button onClick={logOutHandler} className='btn btn-sm'>
                     { !loading ?
                         "Logout"

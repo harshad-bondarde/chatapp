@@ -13,7 +13,7 @@ const Messages = () => {
   return (
     <div className='px-4 flex-1 overflow-auto'>
       { !loadingMessageContainer ?
-          <div>  
+          <div className='flex flex-col gap-5'>  
             { 
               messages 
                   &&
