@@ -1,13 +1,15 @@
 const Conversation = require("../models/conversationModel");
 const Message=require('../models/messageModel')
+const User=require('../models/userModel')
 const {io,getReceiverSocketId}=require('../socket/socket')
-
+const dotenv=require("dotenv")
+const cloudinary=require("cloudinary").v2
 
 const sendMessage=async(req,res)=>{
     try {
         const senderId=req.userId;
         const receiverId=req.params.id;
-        const { message }=req.body;
+        const { message , image }=req.body;
         console.log(message)
         let gotConversation=await Conversation.findOne({
             participants:{
@@ -20,13 +22,23 @@ const sendMessage=async(req,res)=>{
                 participants:[senderId,receiverId]
             })
         }
+        let cloudinaryRes=null
+        if(image!=""){
+            cloudinary.config({
+                cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+                api_key:process.env.CLOUDINARY_API_KEY,
+                api_secret:process.env.CLOUDINARY_API_SECRET
+            })
+            cloudinaryRes=await cloudinary.uploader.upload(image,{folder:"chatapp"})
+        }
 
         const newMessage=await Message.create({
             senderId,
             receiverId,
-            message
+            message,
+            image:cloudinaryRes?.secure_url ? cloudinaryRes.secure_url : ""
         })
-
+        console.log(newMessage)
         if(newMessage){
             gotConversation.messages.push(newMessage._id)
         }
@@ -63,7 +75,7 @@ const getMessage=async (req,res)=>{
         // console.log(conversation.messages)
         console.log("hi")
         return res.status(200).json({
-            messages:conversation?.messages
+            messages:!conversation?.messages ? [] : conversation.messages
         })
         
     } catch (error) {
@@ -111,5 +123,5 @@ const deleteMessage=async (req,res)=>{
 module.exports={
     sendMessage,
     getMessage ,
-    deleteMessage ,
+    deleteMessage
 }
