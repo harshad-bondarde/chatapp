@@ -107,19 +107,87 @@ const getOtherUsers=async(req,res)=>{
                     $ne:loggedInUserId
                 }
             }
-        ).select("-password")
+        ).select("-contacts").select("-password")
 
         return res.status(200).json({
             otherUsers
         })
     } catch (error) {
         console.log(error)
+        return res.status(500).json({
+            error
+        })
     }
+}
+
+
+
+const addToContacts=async(req,res)=>{
+    const senderId=req.userId
+    const { userToAdd }=req.body
+    try {
+        const user=await User.findById(senderId)
+        user.contacts.push(userToAdd._id)
+        await user.save()
+        const returnUser=await User.findById(userToAdd._id).select("-password").select("-contacts")
+        return res.status(200).json({
+            returnUser,
+            message:"User added to Contacts"
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message:"Error while Adding to Contacts"
+        })
+    }    
+}
+
+const deleteFromContacts=async(req,res)=>{
+    const userId=req.userId
+    const { userToDelete }=req.body;
+    try {
+        const user=await User.findById(userId)
+        user.contacts=user.contacts.filter(user=>user._id!=userToDelete._id)
+        user.save()
+        return res.status(200).json({
+            message:"user deleted"
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message:"Error while Removing from Contacts"
+        })    
+    }
+}   
+const getContacts=async(req,res)=>{
+    const userId=req.userId;
+    try {
+        const user=await User.findById(userId)
+        const contactUsers=user.contacts
+        const contactUsersInfo=await User.find({
+            _id:{
+                $in:contactUsers
+            }
+        }).select("-password").select("-contacts")
+        return res.status(200).json({
+            contactUsersInfo
+        })
+    } catch (error) {
+        console.log(error)
+        return res.json(500).json({
+            message:"Error while getting contacts "+error
+        })
+        
+    }
+
 }
 
 module.exports={
     register,
     login,
     logout,
-    getOtherUsers
+    getOtherUsers,
+    addToContacts,
+    getContacts,
+    deleteFromContacts
 }

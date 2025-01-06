@@ -21,7 +21,11 @@ const userModel=new mongoose.Schema({
         type:String,
         anum:['male','female'],
         required:true
-    }
+    },
+    contacts:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"        
+    }]
 },{
     timestamps:true
 })
