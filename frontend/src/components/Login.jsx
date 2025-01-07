@@ -22,8 +22,6 @@ const Login = () => {
         
         // console.log(res.data)
         dispatch(setAuthUser(res.data))
-        if(res)
-            setLoading(false)
         if(res.status==200){
             toast.success("Logged in")
             setUser({
@@ -32,11 +30,11 @@ const Login = () => {
             })
             navigate("/")
         }
-
-
     } catch (error) {
-        toast.error(error.response.data.message)
-        setLoading(false)
+      console.log(error)
+      toast.error(error.response.data.message || "Unknown Error")
+    }finally{
+      setLoading(false)
     }
 
 }

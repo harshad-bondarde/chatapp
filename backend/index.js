@@ -7,8 +7,9 @@ const mainRoutes= require('./routes/index.js')
 const dotenv=require('dotenv')
 const cookiePareser=require("cookie-parser")
 const connectDB=require('./config/database.js')
+const path=require("path")
 
-
+const dir=path.resolve() //get path for root directory
 dotenv.config({})
 const PORT= process.env.PORT || 3000
 
@@ -24,6 +25,10 @@ app.use(cookiePareser())
 
 app.use("/api/v1",mainRoutes)
 
+app.use(express.static(path.join(dir,"/frontend/dist")))
+app.get("*",(req,res)=>{
+    res.sendFile(path.join(dir,"frontend","dist","index.html"))
+})
 
 server.listen(PORT,()=>{
     connectDB()
