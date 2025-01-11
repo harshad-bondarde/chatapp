@@ -17,9 +17,11 @@ const useGetRealTimeMessage = () => {
         }
     })
 
-    socket?.on('deleteMessageInConversation',({senderId,messageId})=>{
-      if(selectedUser?._id==senderId)
-        console.log(senderId,messageId)
+    socket?.on('deleteMessageInConversation',({senderId , receiverId , messageId})=>{
+      console.log({senderId,receiverId,messageId})
+      if(selectedUser?._id==senderId || selectedUser?._id==receiverId)
+        // console.log(senderId,receiverId,messageId)
+      console.log({senderId,receiverId,messageId})
         dispatch(deleteMessage(messageId))
     })
     return () => {

@@ -15,7 +15,7 @@ const useGetMessages = () => {
             try {
                 const res=await axios.get(`http://localhost:3000/api/v1/message/${selectedUser?._id}`)  
     
-                console.log(res.data)          
+                // console.log(res.data)          
                 dispatch(setMessages(res.data.messages))  
                 if(res){
                     dispatch(setLoadingMessageContainer(false))

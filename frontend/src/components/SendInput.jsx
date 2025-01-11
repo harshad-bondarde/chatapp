@@ -12,7 +12,7 @@ const SendInput = () => {
     const [ message,setMessage]=useState("") 
     const [image,setImage]=useState(null)
     const [loading,setLoading]=useState(false)
-    const { selectedUser }=useSelector(state=>state.user)
+    const { selectedUser ,authUser}=useSelector(state=>state.user)
     const { messages } =useSelector(state=>state.message)
     // console.log(messages )
     useEffect(()=>{
@@ -29,20 +29,19 @@ const SendInput = () => {
         try {
             const res=await axios.post(`http://localhost:3000/api/v1/message/send/${selectedUser._id}`,{
                 message,
-                image
-            },{
-                timeout:10000
+                image,
+                authUser
             })
             console.log(res)
             dispatch(setMessages([...messages,res?.data?.newMessage]))
             setMessage("")
-            setImage(null)
         } catch (error) {
             toast.error('Could not send the message try again')
             setLoading(false)
             console.log(error) 
         }finally{
             setLoading(false)
+            setImage("")
         }
     }
 

@@ -5,5 +5,5 @@ const { sendMessage , getMessage ,deleteMessage}=require("../controllers/message
 
 router.post("/send/:id",isAuthenticated,sendMessage)
 router.get("/:id",isAuthenticated,getMessage)
-router.post("/delete/:id",isAuthenticated , deleteMessage)
+router.post("/delete",isAuthenticated , deleteMessage)
 module.exports=router

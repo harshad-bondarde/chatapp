@@ -16,11 +16,11 @@ export const SocketContextProvider=({ children })=>{
                     userId:authUser._id
                 }
             })
+            // console.log(socket)
             setSocket(socket)
 
             socket.on("getOnlineUsers",(users)=>{
                 setOnlineUsers(users)
-                console.log(onlineUsers)
             })
             return ()=>socket.close()
         }else{
@@ -28,6 +28,11 @@ export const SocketContextProvider=({ children })=>{
                 socket.close();
                 setSocket(null)
             }
+        }
+        console.log(socket)
+        console.log(onlineUsers)
+        return ()=>{
+            socket?.close()
         }
     },[authUser])
 

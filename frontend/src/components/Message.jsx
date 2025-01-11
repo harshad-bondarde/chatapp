@@ -19,8 +19,9 @@ const Message = ({ message }) => {
 
   const deleteThisMessage=async ()=>{
     try{  
-        const response=await axios.post(`http://localhost:3000/api/v1/message/delete/${message.receiverId}`,{
-          messageId:message._id
+        const response=await axios.post(`http://localhost:3000/api/v1/message/delete`,{
+          message,
+          authUser
         })
         if(response.status==200){
           dispatch(deleteMessage(message._id))
@@ -36,7 +37,9 @@ const Message = ({ message }) => {
   }
   return (
     <div ref={scroll} className='relative' onClick={()=>{setShowOption(e=>!e)}}>
-      { message.senderId!=userId?
+      { 
+        // message.senderId!=userId?
+        message.receiverId!=selectedUser._id ?
         <div className="chat chat-start">
           <div className="chat-image avatar">
             <div className="w-10 rounded-full">

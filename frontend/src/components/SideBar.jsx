@@ -26,6 +26,7 @@ const SideBar = () => {
             }
             dispatch(setAuthUser(null))
             dispatch(setSelectedUser(null))
+            
             toast.success(res.data.message);
             navigate("/login")
         } catch (error) {
