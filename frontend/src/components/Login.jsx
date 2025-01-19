@@ -28,7 +28,7 @@ const Login = () => {
                 username: "",
                 password: "",
             })
-            navigate("/")
+            navigate("/home")
         }
     } catch (error) {
       console.log(error)
