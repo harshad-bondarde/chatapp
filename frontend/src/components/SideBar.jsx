@@ -28,7 +28,7 @@ const SideBar = () => {
             dispatch(setSelectedUser(null))
             
             toast.success(res.data.message);
-            navigate("/login")
+            navigate("/")
         } catch (error) {
             setLoading(false)
             console.log(error)
