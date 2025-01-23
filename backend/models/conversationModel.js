@@ -7,7 +7,17 @@ const conversationModel=new mongoose.Schema({
     messages:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Message"        
-    }]
+    }],
+    groupInfo:{
+        isGroup:{
+            type:Boolean,
+            default:false
+        },
+        groupName:{
+            type:String,
+            default:null
+        }
+    }
 },{
     timestamps:true
 })
