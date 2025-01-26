@@ -52,15 +52,4 @@ cd frontend
 npm run dev
 ```
 
-    
-## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
-
-`VITE_YOUR_MAPBOX_API_KEY`
-
-`VITE_YOUR_EMAILJS_SERVICEID`
-
-`VITE_YOUR_EMAILJS_TEMPLATEID`
-
-`VITE_YOUR_EMAILJS_PUBLICKEY`
