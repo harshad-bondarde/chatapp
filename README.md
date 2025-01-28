@@ -12,7 +12,6 @@ A Chat Application built with the MERN stack and Socket.io, allowing users to se
 ## Features ✨
 
 - User Registration & Authentication: Secure sign-up and login
-- Ride Booking: Seamless interface to book rides to your desired destinations
 - Real time messaging : Send and delete messages instantly
 - Contacts : Users can manage their contacts 
 - Image uploading : Image Storage Over cloudinary
