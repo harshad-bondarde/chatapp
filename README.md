@@ -1,5 +1,5 @@
 
-![App Screenshot](https://i.postimg.cc/fyfqCpLt/Screenshot-2025-01-07-222703.png)
+![App Screenshot](https://i.postimg.cc/gkgPC46N/Screenshot-2025-01-07-222703.png)
 
 
 
