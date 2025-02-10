@@ -15,7 +15,8 @@ const SideBar = () => {
     const [loading,setLoading]=useState(false)
     const {otherUsers}=useSelector(state=>state.user)
     const [search,setSearch]=useState('')
-    const [showContacts,setShowContacts]=useState(false)
+    // const keys=['allUsers','contacts','groups']
+    const [thiskey,setKey]=useState('allUsers')
 
     const logOutHandler=async ()=>{
         setLoading(true)
@@ -63,17 +64,26 @@ const SideBar = () => {
 
             </form>
             <div className='flex justify-center text-sm gap-5 mt-1'>
-                <div onClick={()=>setShowContacts(false)} className={`border-2 p-1 cursor-pointer border-slate-500 rounded-lg text-white ${!showContacts ? `bg-gray-500 font-semibold`:``}`}>
+                <div onClick={()=>{
+                    setKey('allUsers')
+                }} className={`border-2 p-1 cursor-pointer border-slate-500 rounded-lg text-white ${thiskey=='allUsers' ? `bg-gray-500 font-semibold`:``}`}>
                     All Users
                 </div>
-                <div onClick={()=>{ setShowContacts(true)}} className={`border-2 p-1 cursor-pointer rounded-lg text-white border-slate-500 ${showContacts ? `bg-gray-500 font-semibold`:``}`}>
+                <div onClick={()=>{ 
+                    setKey('contacts')
+                }} className={`border-2 p-1 cursor-pointer rounded-lg text-white border-slate-500 ${thiskey=='contacts' ? `bg-gray-500 font-semibold`:``}`}>
                     Contacts
+                </div>
+                <div onClick={()=>{
+                    setKey('groups')
+                }} className={`border-2 p-1 cursor-pointer rounded-lg text-white border-slate-500 ${thiskey=='groups' ? `bg-gray-500 font-semibold`:``}`} >
+                    Groups
                 </div>
             </div>
 
             <hr className='border-slate-400 mt-3 mb-2' />
 
-            <OtherUsers showContacts={showContacts}/>
+            <OtherUsers thiskey={thiskey}/>
             
             <div className=''>
                 <button onClick={logOutHandler} className='btn btn-sm'>
