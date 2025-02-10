@@ -5,7 +5,8 @@ import useGetOtherUsers from '../hooks/useGetOtherUsers'
 import { MdOutlineCancel } from "react-icons/md";
 import { setSearchedUsers } from '../Redux/userSlice';
 
-const OtherUsers = ({showContacts}) => {
+const OtherUsers = ({thiskey}) => {
+  // console.log(thiskey)
   const dispatch=useDispatch()
   useGetOtherUsers()
   const {otherUsers ,searchedUsers , contacts}=useSelector(state=>state.user)
@@ -37,10 +38,10 @@ const OtherUsers = ({showContacts}) => {
                 <div className='overflow-auto flex-1'>
                   
                   {
-                    !showContacts && otherUsers?.map(user=><OtherUser key={user._id} user={user}/>)
+                    thiskey=='allUsers' && otherUsers?.map(user=><OtherUser key={user._id} user={user}/>)
                   }
                   { 
-                    showContacts && contacts?.map(user=><OtherUser key={user._id} user={user}/>)
+                    thiskey=='contacts' && contacts?.map(user=><OtherUser key={user._id} user={user}/>)
                   }
                 </div>
             

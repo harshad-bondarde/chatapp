@@ -24,7 +24,7 @@ const SigunUp = () => {
             }
             if(res.data.success){
                 toast.success(res.data.message)
-                navigate("/login")
+                navigate("/")
             }
         } catch (error) {
             console.log(error)
@@ -124,7 +124,7 @@ const SigunUp = () => {
 
                         <div className='flex justify-center'>
                             Already have an account ?
-                            <Link className='mx-2 text-blue-500 underline' to={"/login"}>
+                            <Link className='mx-2 text-blue-500 underline' to={"/"}>
                                 Login
                             </Link>
                         </div>
