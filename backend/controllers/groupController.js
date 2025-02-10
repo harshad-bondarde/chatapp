@@ -22,6 +22,25 @@ const createGroup=async(req,res)=>{
     }
 }
 
+
+const getAllGroups=async(req,res)=>{
+    const userId=req.userId;
+    try{
+        const groups=await Conversation.find({
+            participants:[userId]
+        })
+        return res.status(200).json({
+            groups
+        })
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({
+            message:error.message
+        })
+    }
+}
+
+
 const getGroupInfo=async(req,res)=>{
     try {
         const { conversationId }=req.body
@@ -93,7 +112,8 @@ module.exports={
     createGroup,
     addUserToGroup,
     RemoveUser,
-    getGroupInfo
+    getGroupInfo,
+    getAllGroups
 }
 
 
