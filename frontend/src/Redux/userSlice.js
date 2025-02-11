@@ -7,6 +7,12 @@ const userSlice=createSlice({
         selectedUser:null,
         searchedUsers:[],
         contacts:[],
+        groups:[],
+        addGroupInfo:{
+            groupName:"",
+            addMembers:true,
+            selectedMembers:[]
+        },
         onlineUsers:null
     },
     reducers:{
@@ -38,10 +44,25 @@ const userSlice=createSlice({
         deleteFromContact:(state,action)=>{
             const userToDelete=action.payload
             state.contacts=state.contacts.filter(user=>user._id!=userToDelete._id)
+        } ,
+        setGroups:(state,action)=>{
+            state.groups=action.payload
+        } ,
+        addGroup:(state,action)=>{
+            state.groups.push(action.payload)
+        },
+        setAllowewdToAddMembers:(state,action)=>{
+            const data=action.payload
+            state.addGroupInfo.addMembers=data.flag
+            state.addGroupInfo.groupName=data.groupName
+        } ,
+        setSelectedMembers:(state,action)=>{
+            state.addGroupInfo.selectedMembers.push(action.payload)
+        } ,
+        deselectMember:(state,action)=>{
+            state.addGroupInfo.selectedMembers=state.addGroupInfo.selectedMembers.filter(member=>member._id!=action.payload)
         }
-
-        
-
+    
     }
 })
 
@@ -51,7 +72,13 @@ export const { setAuthUser ,
                setSearchedUsers ,
                setOnlineUsers ,
                setContacts ,
-               deleteFromContact
+               deleteFromContact ,
+               
+               setGroups ,
+               addGroup, //for groups
+               setAllowewdToAddMembers ,
+               setSelectedMembers
+            
             }=userSlice.actions
 
 export default userSlice.reducer

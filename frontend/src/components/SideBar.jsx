@@ -83,7 +83,7 @@ const SideBar = () => {
 
             <hr className='border-slate-400 mt-3 mb-2' />
 
-            <OtherUsers thiskey={thiskey}/>
+            <OtherUsers thiskey={thiskey} setKey={setKey}/>
             
             <div className=''>
                 <button onClick={logOutHandler} className='btn btn-sm'>

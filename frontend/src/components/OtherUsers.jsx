@@ -1,21 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import OtherUser from './OtherUser'
+import OtherGroup from './OtherGroup'
 import { useSelector , useDispatch } from 'react-redux'
 import useGetOtherUsers from '../hooks/useGetOtherUsers'
 import { MdOutlineCancel } from "react-icons/md";
 import { setSearchedUsers } from '../Redux/userSlice';
+import { addGroup } from '../Redux/userSlice';
+import useGetGroups from '../hooks/useGetGroups';
+import toast from "react-hot-toast"
+import axios from 'axios';
 
-const OtherUsers = ({thiskey}) => {
+const OtherUsers = ({thiskey ,setKey}) => {
   // console.log(thiskey)
   const dispatch=useDispatch()
   useGetOtherUsers()
-  const {otherUsers ,searchedUsers , contacts}=useSelector(state=>state.user)
+  useGetGroups()
+
+  const {otherUsers ,searchedUsers , contacts , groups}=useSelector(state=>state.user)
   
-  // console.log(otherUsers)
-  // console.log(searchedUsers)
-  // if(!otherUsers) return;
+  const [groupName,setGroupName]=useState("")
+  const [createGroup,setCreateGroup]=useState(false)
+  const [loading,setLoading]=useState(false)
 
+  const handleGroupCreation=async()=>{
+    if(groupName==""){
+      toast.error("Please Enter Group Name")
+      return 
+    }
 
+    try {
+      setLoading(true)
+      const response=await axios.post("http://localhost:3000/api/v1/group/createGroup",{
+        groupName
+      })
+      console.log(response)
+      dispatch(addGroup(response.data.conversationId))
+      setGroupName("")
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setCreateGroup(false)
+      setLoading(false)
+    }
+
+  }
 
   return (
     <>  { searchedUsers.length>0
@@ -42,6 +70,41 @@ const OtherUsers = ({thiskey}) => {
                   }
                   { 
                     thiskey=='contacts' && contacts?.map(user=><OtherUser key={user._id} user={user}/>)
+                  }
+                  {
+                    thiskey=='groups' && 
+                      <div className='w-full'>
+                        <div className='flex justify-center'> 
+                            { !createGroup ?
+                              <button className='btn btn-sm'
+                                onClick={()=>{
+                                  setCreateGroup(true)
+                                }}
+                              >
+                                Create New Group
+                              </button>
+                              :
+                              <div className='flex gap-1'>
+                                <input placeholder='Enter Group Name' 
+                                  onChange={(e)=>{setGroupName(e.target.value)}} 
+                                  className='text-center rounded-md '/>
+                                <button className='btn btn-sm'
+                                  onClick={()=>handleGroupCreation()}>
+                                  {!loading ?
+                                    "Submit"
+                                    :
+                                    <span className="loading loading-spinner loading-xs"></span>
+                                  }
+                                </button>
+                              </div>
+                            }       
+                        </div>
+
+                        <hr className='border-slate-400 mt-3 mb-2 mx-5'/>
+                        
+                        {groups?.map((group,key)=><OtherGroup key={key} group={group}/>)}
+                      
+                      </div>
                   }
                 </div>
             
