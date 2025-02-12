@@ -7,13 +7,15 @@ const userSlice=createSlice({
         selectedUser:null,
         searchedUsers:[],
         contacts:[],
+        onlineUsers:null,
+
         groups:[],
+        selectedGroup:null,
         addGroupInfo:{
             groupName:"",
             addMembers:true,
             selectedMembers:[]
         },
-        onlineUsers:null
     },
     reducers:{
         setAuthUser:(state,action)=>{
@@ -45,9 +47,14 @@ const userSlice=createSlice({
             const userToDelete=action.payload
             state.contacts=state.contacts.filter(user=>user._id!=userToDelete._id)
         } ,
+
+
         setGroups:(state,action)=>{
             state.groups=action.payload
         } ,
+        setSelectedGroup:(state,action)=>{
+            state.selectedGroup=action.payload
+        },  
         addGroup:(state,action)=>{
             state.groups.push(action.payload)
         },
@@ -77,7 +84,8 @@ export const { setAuthUser ,
                setGroups ,
                addGroup, //for groups
                setAllowewdToAddMembers ,
-               setSelectedMembers
+               setSelectedMembers ,
+               setSelectedGroup
             
             }=userSlice.actions
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import OtherUser from './OtherUser'
-import OtherGroup from './OtherGroup'
+import OtherGroup from './GroupComponents/OtherGroup'
 import { useSelector , useDispatch } from 'react-redux'
 import useGetOtherUsers from '../hooks/useGetOtherUsers'
 import { MdOutlineCancel } from "react-icons/md";
@@ -34,10 +34,12 @@ const OtherUsers = ({thiskey ,setKey}) => {
         groupName
       })
       console.log(response)
-      dispatch(addGroup(response.data.conversationId))
+      dispatch(addGroup(response.data))
+      toast.success("Group Created Successfully")
       setGroupName("")
     } catch (error) {
       console.log(error)
+      toast.error("Error while creating group")
     }finally{
       setCreateGroup(false)
       setLoading(false)
@@ -102,7 +104,7 @@ const OtherUsers = ({thiskey ,setKey}) => {
 
                         <hr className='border-slate-400 mt-3 mb-2 mx-5'/>
                         
-                        {groups?.map((group,key)=><OtherGroup key={key} group={group}/>)}
+                        {groups.length>0 && groups?.map((group,key)=><OtherGroup key={key} group={group}/>)}
                       
                       </div>
                   }

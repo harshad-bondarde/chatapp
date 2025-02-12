@@ -8,10 +8,11 @@ import { CiCircleMinus } from "react-icons/ci";
 import axios from 'axios'
 import { deleteFromContact, setContacts } from '../Redux/userSlice'
 import toast from 'react-hot-toast'
+import GroupMessageContainer from './GroupComponents/GroupMessageContainer'
 
 const MessageContainer = () => {
   const dispatch=useDispatch()
-  const {selectedUser , contacts}=useSelector(state=>state.user)
+  const {selectedUser , contacts ,selectedGroup}=useSelector(state=>state.user)
   const { loadingMessageContainer }=useSelector(state=>state.message)
   const {onlineUsers}=useContext(SocketContext)
   const isOnline=onlineUsers?.includes(selectedUser?._id)
@@ -105,9 +106,15 @@ const MessageContainer = () => {
           <SendInput/>
         </div>
         :
-        <div className='md:min-w-[550px] flex flex-col items-center mt-60 text-2xl font-medium'> 
-          Let's Start Convo...
-        </div>
+        <>
+          { selectedGroup ?
+              <GroupMessageContainer/>
+              :
+              <div className='md:min-w-[550px] flex flex-col items-center mt-60 text-2xl font-medium'> 
+                Let's Start Convo...
+              </div>
+          }
+        </>
       }
     </>
   )
