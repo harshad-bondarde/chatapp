@@ -10,9 +10,12 @@ const createGroup=async(req,res)=>{
                 groupName:groupName
             }
         })
-        const conversationInfo=conversation.populate("participants")
+        
+        // const conversationInfo=conversation.populate("participants")
         return res.status(200).json({
-            conversationInfo
+            // conversationInfo
+            groupName:groupName,
+            conversationId:conversation._id 
         })
     } catch (error) {
         console.log(error)
@@ -28,9 +31,15 @@ const getAllGroups=async(req,res)=>{
     try{
         const groups=await Conversation.find({
             participants:[userId]
+        }).select("_id").select("groupInfo.groupName")
+        const finalInfo=groups.map(group=>{
+            return {
+                groupName:group.groupInfo.groupName,
+                conversationId:group._id
+            }
         })
         return res.status(200).json({
-            groups
+            groups:finalInfo
         })
     }catch(error){
         console.log(error)

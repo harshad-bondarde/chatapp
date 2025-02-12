@@ -12,6 +12,9 @@ const useGetMessages = () => {
     useEffect(() => {
         dispatch(setLoadingMessageContainer(true))
         const fetchMessages=async ()=>{
+            if(!selectedUser)
+                return
+        
             try {
                 const res=await axios.get(`http://localhost:3000/api/v1/message/${selectedUser?._id}`)  
     

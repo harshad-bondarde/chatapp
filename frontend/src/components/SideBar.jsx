@@ -4,7 +4,7 @@ import OtherUsers from './OtherUsers';
 import axios from 'axios';
 import toast from "react-hot-toast"
 import { useNavigate } from 'react-router-dom';
-import { setAuthUser, setSearchedUsers ,setSelectedUser} from '../Redux/userSlice';
+import { setAuthUser, setContacts, setGroups, setOtherUsers, setSearchedUsers ,setSelectedUser} from '../Redux/userSlice';
 import { useDispatch,useSelector } from 'react-redux';
 
 
@@ -27,6 +27,9 @@ const SideBar = () => {
             }
             dispatch(setAuthUser(null))
             dispatch(setSelectedUser(null))
+            dispatch(setGroups([]));
+            dispatch(setContacts([]))
+            dispatch(setOtherUsers([]))
             
             toast.success(res.data.message);
             navigate("/")
@@ -83,7 +86,7 @@ const SideBar = () => {
 
             <hr className='border-slate-400 mt-3 mb-2' />
 
-            <OtherUsers thiskey={thiskey}/>
+            <OtherUsers thiskey={thiskey} setKey={setKey}/>
             
             <div className=''>
                 <button onClick={logOutHandler} className='btn btn-sm'>

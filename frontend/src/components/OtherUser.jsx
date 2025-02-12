@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedUser } from '../Redux/userSlice'
+import { setSelectedGroup, setSelectedUser } from '../Redux/userSlice'
 import { SocketContext } from '../context/SocketContext.jsx'
 
 const OtherUser = ({user}) => {
     // console.log(user)
     const dispatch=useDispatch()
 
-    const selectedUserHandler=({user})=>{
+    const selectedUserHandler=async({user})=>{
         // console.log(user)
+        await dispatch(setSelectedGroup(null))
         dispatch(setSelectedUser(user));
     }
 
