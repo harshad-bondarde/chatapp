@@ -26,10 +26,10 @@ app.use(cookiePareser())
 
 app.use("/api/v1",mainRoutes)
 
-app.use(express.static(path.join(dir,"/frontend/dist")))
-app.get("*",(req,res)=>{
-    res.sendFile(path.join(dir,"frontend","dist","index.html"))
-})
+// app.use(express.static(path.join(dir,"/frontend/dist")))
+// app.get("*",(req,res)=>{
+//     res.sendFile(path.join(dir,"frontend","dist","index.html"))
+// })
 
 server.listen(PORT,()=>{
     connectDB()

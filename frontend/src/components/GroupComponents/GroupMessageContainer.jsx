@@ -13,7 +13,7 @@ const GroupMessageContainer = () => {
                     <div className='flex items-center py-2'>     
                     <div>
                         <div className='w-8 h-8 text-center flex flex-col justify-center rounded-full bg-gray-500'>
-                            {selectedGroup.groupName[0]?.toUpperCase()}
+                            {selectedGroup?.groupName[0]?.toUpperCase()}
                         </div>
                     </div>
 
@@ -25,7 +25,7 @@ const GroupMessageContainer = () => {
                     </div>
             </div>
 
-            <GroupMessages/>
+            <GroupMessages messages={selectedGroup?.groupMessages}/>
             <SendGroupMessageInput/>
         </div>
     )

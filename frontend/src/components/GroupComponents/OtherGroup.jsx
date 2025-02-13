@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {setSelectedGroup} from '../../Redux/userSlice'
 import { setSelectedUser } from '../../Redux/userSlice'
+import toast from 'react-hot-toast'
+import axios from 'axios'
 
 const OtherGroup = ({group}) => {
     const dispatch=useDispatch()
     const {selectedGroup}=useSelector(state=>state.user)
+    const [loading,setLoading]=useState(false)
     const selectConversationHandler= async ({group})=>{
-        await dispatch(setSelectedUser(null))
+        
+        dispatch(setSelectedUser(null))
         dispatch(setSelectedGroup(group))
     }
     return (

@@ -1,4 +1,5 @@
 const Conversation = require("../models/conversationModel");
+const GroupMessages=require("../models/groupMessageModel")
 
 const createGroup=async(req,res)=>{
     try {
@@ -52,11 +53,20 @@ const getAllGroups=async(req,res)=>{
 
 const getGroupInfo=async(req,res)=>{
     try {
-        const { conversationId }=req.body
-        const gotConversation=Conversation.findById({conversationId})
+        const conversationId=req.params.conversationId
+        
+        console.log(conversationId)
+        
+        const gotConversation=await Conversation.findById(conversationId).populate({
+                                                                           path:"participants",
+                                                                           select:"-contacts -password"                 
+                                                                        }).populate("groupMessages")
         if(gotConversation){
             return res.status(200).json({
-                conversationInfo:gotConversation
+                conversationInfo:{
+                    participants:gotConversation.participants,
+                    groupMessages:gotConversation.groupMessages
+                }
             })
         }else{
             return res.json(404).json({
@@ -69,7 +79,7 @@ const getGroupInfo=async(req,res)=>{
             message:"error while getting conversation "+error.message
         })
     }
-}
+} 
 
 const addUserToGroup=async(req,res)=>{
     try {
@@ -116,6 +126,8 @@ const RemoveUser=async(req,res)=>{
         })
     }
 }
+
+
 
 module.exports={
     createGroup,

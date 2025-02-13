@@ -5,6 +5,11 @@ const GroupMessageModel=new mongoose.Schema({
         ref:"Conversation",
         required:true
     },
+    senderId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
     message:{
         type:String,
     },
@@ -15,5 +20,5 @@ const GroupMessageModel=new mongoose.Schema({
     timestamps:true
 })
 
-const Message=mongoose.model("Message", GroupMessageModel)
+const Message=mongoose.model("GroupMessage", GroupMessageModel)
 module.exports=Message

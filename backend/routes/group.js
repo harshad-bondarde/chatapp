@@ -5,7 +5,7 @@ const { getAllGroups, createGroup, getGroupInfo }=require('../controllers/groupC
  
 router.get('/getAllGroups',isAuthenticated,getAllGroups)
 router.post('/createGroup',isAuthenticated,createGroup)
-router.post('/getGroupInfo',isAuthenticated,getGroupInfo)
+router.get('/getGroupInfo/:conversationId',isAuthenticated,getGroupInfo)
 
 
 module.exports=router
