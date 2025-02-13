@@ -4,10 +4,6 @@ const conversationModel=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     }],
-    messages:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Message"        
-    }],
     groupInfo:{
         isGroup:{
             type:Boolean,
@@ -17,7 +13,15 @@ const conversationModel=new mongoose.Schema({
             type:String,
             default:null
         }
-    }
+    },
+    messages:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Message"        
+    }],
+    groupMessages:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"GroupMessage"
+    }]
 },{
     timestamps:true
 })

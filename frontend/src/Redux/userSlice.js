@@ -11,6 +11,7 @@ const userSlice=createSlice({
 
         groups:[],
         selectedGroup:null,
+        selectedGroupInfo:null,
         addGroupInfo:{
             groupName:"",
             addMembers:true,
@@ -55,6 +56,9 @@ const userSlice=createSlice({
         setSelectedGroup:(state,action)=>{
             state.selectedGroup=action.payload
         },  
+        setSelctedGroupInfo:(state,action)=>{
+            state.selectedGroupInfo=action.payload
+        },
         addGroup:(state,action)=>{
             state.groups.push(action.payload)
         },
@@ -85,7 +89,8 @@ export const { setAuthUser ,
                addGroup, //for groups
                setAllowewdToAddMembers ,
                setSelectedMembers ,
-               setSelectedGroup
+               setSelectedGroup ,
+               setSelctedGroupInfo
             
             }=userSlice.actions
 
