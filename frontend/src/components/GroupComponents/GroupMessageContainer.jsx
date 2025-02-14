@@ -7,7 +7,7 @@ const GroupMessageContainer = () => {
     const {selectedGroup}=useSelector(state=>state.user)
     console.log(selectedGroup)
     return (
-        <div className='md:min-w-[550px] flex flex-col '>
+        <div className='md:min-w-[550px] flex flex-col justify-between'>
             
             <div className='flex justify-between bg-zinc-800 text-white px-4 py-2 items-center'> 
                     <div className='flex items-center py-2'>     
