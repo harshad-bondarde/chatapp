@@ -1,5 +1,5 @@
 const Conversation = require("../models/conversationModel");
-const GroupMessages=require("../models/groupMessageModel")
+const GroupMessage=require("../models/groupMessageModel")
 
 const createGroup=async(req,res)=>{
     try {
@@ -127,6 +127,57 @@ const RemoveUser=async(req,res)=>{
     }
 }
 
+const sendGroupMessage=async(req,res)=>{
+    const userId=req.userId;
+    const {conversationId , message , image}=req.body;
+    try {
+        const gotConversation=await Conversation.findById(conversationId)
+        if(!gotConversation){
+            res.status(404).json({
+                message:"Conversation not found"
+            })
+            return;
+        }
+
+        let cloudinaryRes=null
+            if(image!=""){
+                cloudinary.config({
+                    cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+                    api_key:process.env.CLOUDINARY_API_KEY,
+                    api_secret:process.env.CLOUDINARY_API_SECRET
+                })
+                if(image!="")
+                    cloudinaryRes=await cloudinary.uploader.upload(image,{folder:"chatapp"})
+            }
+        
+        const newGroupMessage=await GroupMessage.create({
+            conversationId,
+            senderId:userId,
+            message,
+            image:cloudinaryRes?.secure_url ? cloudinaryRes.secure_url : ""
+        })
+
+        if(newGroupMessage){
+            console.log("sent")
+            gotConversation.groupMessages.push(newGroupMessage._id)
+            await gotConversation.save()
+        }
+        return res.status(200).json({
+            message:newGroupMessage
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error:"error while sending message "+error.message
+        })
+    }
+
+    
+    
+
+
+}
+
 
 
 module.exports={
@@ -134,7 +185,8 @@ module.exports={
     addUserToGroup,
     RemoveUser,
     getGroupInfo,
-    getAllGroups
+    getAllGroups,
+    sendGroupMessage
 }
 
 
