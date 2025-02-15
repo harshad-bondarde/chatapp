@@ -49,6 +49,7 @@ const userSlice=createSlice({
         } ,
 
 
+
         setGroups:(state,action)=>{
             state.groups=action.payload
         } ,
@@ -71,6 +72,9 @@ const userSlice=createSlice({
         } ,
         deselectMember:(state,action)=>{
             state.addGroupInfo.selectedMembers=state.addGroupInfo.selectedMembers.filter(member=>member._id!=action.payload)
+        } ,
+        addNewGroupMessage:(state,action)=>{
+            state.selectedGroupInfo.groupMessages.push(action.payload)
         }
     
     }
@@ -89,7 +93,8 @@ export const { setAuthUser ,
                setAllowewdToAddMembers ,
                setSelectedMembers ,
                setSelectedGroup ,
-               setSelctedGroupInfo
+               setSelctedGroupInfo , 
+               addNewGroupMessage
             
             }=userSlice.actions
 

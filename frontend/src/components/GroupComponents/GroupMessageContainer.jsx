@@ -4,8 +4,8 @@ import SendGroupMessageInput from './SendGroupMessageInput'
 import GroupMessages from './GroupMessages'
 
 const GroupMessageContainer = () => {
-    const {selectedGroup}=useSelector(state=>state.user)
-    console.log(selectedGroup)
+    const {selectedGroup , selectedGroupInfo}=useSelector(state=>state.user)
+    // console.log(selectedGroup)
     return (
         <div className='md:min-w-[550px] flex flex-col justify-between'>
             
@@ -25,7 +25,7 @@ const GroupMessageContainer = () => {
                     </div>
             </div>
 
-            <GroupMessages messages={selectedGroup?.groupMessages}/>
+            <GroupMessages messages={selectedGroupInfo?.groupMessages}/>
             <SendGroupMessageInput/>
         </div>
     )
