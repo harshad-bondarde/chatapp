@@ -5,6 +5,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import axios from "axios"
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from 'react-redux';
+import { addNewGroupMessage } from '../../Redux/userSlice';
 
 const SendGroupMessageInput = () => {
   const dispatch=useDispatch()
@@ -31,7 +32,8 @@ const SendGroupMessageInput = () => {
           setMessage("")
   },[selectedGroup])
 
-  const onSubmitHandler=async()=>{
+  const onSubmitHandler=async(e)=>{
+    e.preventDefault()
     if(message=="" && image==""){
       toast.error("Enter valid message")
       return;
@@ -39,18 +41,22 @@ const SendGroupMessageInput = () => {
 
     try {
       setLoading(true)
+      console.log("HIasd")
       const response=await axios.post("http://localhost:3000/api/v1/group/sendGroupMessage",{
         conversationId:selectedGroup.conversationId,
         message,
         image
       })
       console.log(response)
+      dispatch(addNewGroupMessage(response.data.message))
 
     } catch (error) {
       console.log(error)
       toast.error(error?.response?.data?.message ||"Error while sending Message")
     }finally{
       setLoading(false)
+      setMessage("")
+      setImage("")
     }
 
   }
