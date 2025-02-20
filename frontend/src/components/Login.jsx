@@ -4,7 +4,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { setAuthUser } from '../Redux/userSlice'
+import { setAuthUser, setSelectedMembers } from '../Redux/userSlice'
 const Login = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch();
@@ -24,6 +24,7 @@ const Login = () => {
         dispatch(setAuthUser(res.data))
         if(res.status==200){
             toast.success("Logged in")
+            dispatch(setSelectedMembers([]))
             setUser({
                 username: "",
                 password: "",
