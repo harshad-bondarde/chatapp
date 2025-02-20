@@ -82,16 +82,16 @@ const getGroupInfo=async(req,res)=>{
     }
 } 
 
-const addUserToGroup=async(req,res)=>{
+const addUsersToGroup=async(req,res)=>{
     try {
-        const {conversationId,userToAdd}=req.body;
-        const gotConversation=await Conversation.findById({conversationId})
+        const {conversationId,usersToAdd}=req.body;
+        const gotConversation=await Conversation.findById(conversationId)
         if(!gotConversation){
             return res.status(404).json({
                 message:"Couldn't get the conversation"
             })
         }
-        gotConversation.participants.push(userToAdd)
+        gotConversation.participants.concat(usersToAdd)
         gotConversation.save()
         return res.status(200).json({
             conversationInfo:gotConversation,
@@ -108,7 +108,7 @@ const addUserToGroup=async(req,res)=>{
 const RemoveUser=async(req,res)=>{
     try {
         const {conversationId,userToDelete}=req.body;
-        const gotConversation=await Conversation.findById({conversationId})
+        const gotConversation=await Conversation.findById(conversationId)
         if(!gotConversation){
             return res.status(404).json({
                 message:"Couldn't get the conversation"
@@ -183,7 +183,7 @@ const sendGroupMessage=async(req,res)=>{
 
 module.exports={
     createGroup,
-    addUserToGroup,
+    addUsersToGroup,
     RemoveUser,
     getGroupInfo,
     getAllGroups,

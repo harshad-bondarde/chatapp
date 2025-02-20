@@ -48,7 +48,7 @@ const OtherUsers = ({thiskey ,setKey}) => {
   }
 
   return (
-    <>  { searchedUsers.length>0
+    <>  { searchedUsers?.length>0
               ?
                 <div className='overflow-auto flex-1'>
                   <button

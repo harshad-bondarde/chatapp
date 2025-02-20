@@ -12,11 +12,8 @@ const userSlice=createSlice({
         groups:[],
         selectedGroup:null,
         selectedGroupInfo:null,
-        addGroupInfo:{
-            groupName:"",
-            addMembers:true,
-            selectedMembers:[]
-        },
+        addMembers:false,
+        selectedMembers:[]
     },
     reducers:{
         setAuthUser:(state,action)=>{
@@ -63,15 +60,17 @@ const userSlice=createSlice({
             state.groups.push(action.payload)
         },
         setAllowewdToAddMembers:(state,action)=>{
-            const data=action.payload
-            state.addGroupInfo.addMembers=data.flag
-            state.addGroupInfo.groupName=data.groupName
+            state.addMembers=action.payload
         } ,
         setSelectedMembers:(state,action)=>{
-            state.addGroupInfo.selectedMembers.push(action.payload)
+            state.addMembers=action.payload
+        },
+        addSelectedMembers:(state,action)=>{
+            console.log(state.selectedMembers)
+            state.selectedMembers.push(action.payload)
         } ,
         deselectMember:(state,action)=>{
-            state.addGroupInfo.selectedMembers=state.addGroupInfo.selectedMembers.filter(member=>member._id!=action.payload)
+            state.selectedMembers=state.selectedMembers.filter(member=>member._id!=action.payload)
         } ,
         addNewGroupMessage:(state,action)=>{
             state.selectedGroupInfo.groupMessages.push(action.payload)
@@ -91,7 +90,9 @@ export const { setAuthUser ,
                setGroups ,
                addGroup, //for groups
                setAllowewdToAddMembers ,
-               setSelectedMembers ,
+               setSelectedMembers,
+               addSelectedMembers ,
+               deselectMember,
                setSelectedGroup ,
                setSelctedGroupInfo , 
                addNewGroupMessage
