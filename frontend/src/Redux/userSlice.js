@@ -8,12 +8,12 @@ const userSlice=createSlice({
         searchedUsers:[],
         contacts:[],
         onlineUsers:null,
-
+        
         groups:[],
         selectedGroup:null,
         selectedGroupInfo:null,
+        selectedMembers:[],
         addMembers:false,
-        selectedMembers:[]
     },
     reducers:{
         setAuthUser:(state,action)=>{
@@ -56,21 +56,26 @@ const userSlice=createSlice({
         setSelctedGroupInfo:(state,action)=>{
             state.selectedGroupInfo=action.payload
         },
+        addNewParticipants:(state,action)=>{
+            state.selectedGroupInfo.participants=state.selectedGroupInfo.participants.concat(action.payload)
+        },
         addGroup:(state,action)=>{
             state.groups.push(action.payload)
         },
         setAllowewdToAddMembers:(state,action)=>{
+            console.log(action.payload)
             state.addMembers=action.payload
         } ,
         setSelectedMembers:(state,action)=>{
-            state.addMembers=action.payload
+            console.log(action.payload)
+            state.selectedMembers=action.payload
         },
         addSelectedMembers:(state,action)=>{
-            console.log(state.selectedMembers)
             state.selectedMembers.push(action.payload)
+            console.log(state.selectedMembers)
         } ,
         deselectMember:(state,action)=>{
-            state.selectedMembers=state.selectedMembers.filter(member=>member._id!=action.payload)
+            state.selectedMembers=state.selectedMembers.filter(memberId=>memberId!=action.payload)
         } ,
         addNewGroupMessage:(state,action)=>{
             state.selectedGroupInfo.groupMessages.push(action.payload)
@@ -95,7 +100,8 @@ export const { setAuthUser ,
                deselectMember,
                setSelectedGroup ,
                setSelctedGroupInfo , 
-               addNewGroupMessage
+               addNewGroupMessage ,
+               addNewParticipants
             
             }=userSlice.actions
 

@@ -6,39 +6,40 @@ import userReducer from "./userSlice"
 import messageReducer from "./messageSlice"
 import socketReducer from './socketSlice'
 
-// const store=configureStore({
-//     reducer:{
-//         user:userReducer,
-//         message:messageReducer,
-//         socket:socketReducer
-//     }
-// })
+const store=configureStore({
+    reducer:{
+        user:userReducer,
+        message:messageReducer,
+        socket:socketReducer
+    }
+})
 
 // export default store;
 
-const persistConfig = {
-    key: "root",
-    storage,
-};
+// const persistConfig = {
+//     key: "root",
+//     storage,
+// };
 
-const rootReducers=combineReducers({
-    user:userReducer,
-    message:messageReducer,
-    socket:socketReducer
-})
+// const rootReducers=combineReducers({
+//     user:userReducer,
+//     message:messageReducer,
+//     socket:socketReducer
+// })
 
-const persistedReducer = persistReducer(persistConfig, rootReducers);
+// const persistedReducer = persistReducer(persistConfig, rootReducers);
 
-const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-            },
-        }),
-});
+// const store = configureStore({
+//     reducer: persistedReducer,
+//     middleware: (getDefaultMiddleware) =>
+//         getDefaultMiddleware({
+//             serializableCheck: {
+//                 ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+//             },
+//         }),
+// });
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 
-export { store, persistor };
+// export { store, persistor };
+export {store}
