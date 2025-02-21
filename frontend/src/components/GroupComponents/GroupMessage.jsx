@@ -12,8 +12,9 @@ const GroupMessage = ({message}) => {
         scroll.current?.scrollIntoView({behavior:"smooth"})
     },[message])
 
-    const sender=selectedGroupInfo.participants.includes({_id:message.senderId})
-    // console.log(message)
+    const sender=selectedGroupInfo.participants.find(user=>{
+      return user._id==message.senderId
+    })
     
     const deleteThisMessage=async()=>{
 
@@ -23,7 +24,7 @@ const GroupMessage = ({message}) => {
     <div ref={scroll} className='relative' onClick={()=>{setShowOption(e=>!e)}}>
       { 
         // message.senderId!=userId?
-        sender?._id==authUser?._id   ?
+        sender?._id!=authUser?._id   ?
         <div className="chat chat-start">
           <div className="chat-image avatar">
             <div className="w-10 rounded-full">

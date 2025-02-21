@@ -32,8 +32,10 @@ const getAllGroups=async(req,res)=>{
     const userId=req.userId;
     try{
         const groups=await Conversation.find({
-            participants:[userId]
+            participants:{ $in: [userId] } ,
+            "groupInfo.isGroup":true
         }).select("_id").select("groupInfo.groupName")
+        console.log(groups)
         const finalInfo=groups.map(group=>{
             return {
                 groupName:group.groupInfo.groupName,
@@ -82,7 +84,7 @@ const getGroupInfo=async(req,res)=>{
     }
 } 
 
-const addUsersToGroup=async(req,res)=>{
+const addParticipants=async(req,res)=>{
     try {
         const {conversationId,usersToAdd}=req.body;
         const gotConversation=await Conversation.findById(conversationId)
@@ -91,11 +93,14 @@ const addUsersToGroup=async(req,res)=>{
                 message:"Couldn't get the conversation"
             })
         }
-        gotConversation.participants.concat(usersToAdd)
-        gotConversation.save()
+        gotConversation.participants=gotConversation.participants.concat(usersToAdd)
+        await gotConversation.save()
+        
+        const updatedConversation=await Conversation.findById(conversationId).populate("participants").select("-password").select("-contacts")
+        console.log(updatedConversation.participants)
         return res.status(200).json({
-            conversationInfo:gotConversation,
-            message:"User Added"
+            participantsInfo : updatedConversation.participants,
+            message:"Users Added"
         })
     } catch (error) {
         console.log(error)
@@ -183,11 +188,11 @@ const sendGroupMessage=async(req,res)=>{
 
 module.exports={
     createGroup,
-    addUsersToGroup,
     RemoveUser,
     getGroupInfo,
     getAllGroups,
-    sendGroupMessage
+    sendGroupMessage ,
+    addParticipants
 }
 
 

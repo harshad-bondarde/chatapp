@@ -4,7 +4,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { setAuthUser, setSelectedMembers } from '../Redux/userSlice'
+import { setAllowewdToAddMembers, setAuthUser, setSelectedMembers } from '../Redux/userSlice'
 const Login = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch();
@@ -29,6 +29,7 @@ const Login = () => {
                 username: "",
                 password: "",
             })
+            dispatch(setAllowewdToAddMembers(false))
             navigate("/home")
         }
     } catch (error) {

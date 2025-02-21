@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 body{
-    background: url(.././public/bg.avif);
+    background: url(.././public/bg4.avif);
     background-size:cover;
     background-position: center;
     background-repeat: no-repeat;
