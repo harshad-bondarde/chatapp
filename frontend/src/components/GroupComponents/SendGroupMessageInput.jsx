@@ -12,7 +12,7 @@ const SendGroupMessageInput = () => {
   const [ message,setMessage]=useState("") 
   const [image,setImage]=useState("")
   const [loading,setLoading]=useState(false)
-  const {selectedGroup , selectedGroupInfo}=useSelector(state=>state.user)
+  const {selectedGroup , selectedGroupInfo , authUser}=useSelector(state=>state.user)
   const messages=selectedGroupInfo?.groupMessages
 
   const handleImageChange=(e)=>{
@@ -45,7 +45,8 @@ const SendGroupMessageInput = () => {
       const response=await axios.post("http://localhost:3000/api/v1/group/sendGroupMessage",{
         conversationId:selectedGroup.conversationId,
         message,
-        image
+        image,
+        senderId:authUser._id
       })
       console.log(response)
       dispatch(addNewGroupMessage(response.data.message))

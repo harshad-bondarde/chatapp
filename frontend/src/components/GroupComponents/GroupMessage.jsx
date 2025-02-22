@@ -43,7 +43,7 @@ const GroupMessage = ({message}) => {
                     :
                     null
                   }
-              {message?.message!="" && <div className="chat-bubble">{message?.message}</div>}
+              {message?.message!="" && <div className="chat-bubble mt-1">{message?.message}</div>}
             </div>
             { showOption?
                 <div className='flex mr-3 space-y-1 mb-1 ml-3 items-center space-x-1'>
@@ -89,8 +89,8 @@ const GroupMessage = ({message}) => {
                     <img className='object-cover rounded-lg w-44 h-44' src={`${message.image}`}></img>
                     :
                     null
-                  }
-              {message?.message!="" && <div className="chat-bubble">{message?.message}</div>}
+              }
+              {message?.message!="" && <div className="chat-bubble mt-1">{message?.message}</div>}
             </div>
           </div>
         </div>

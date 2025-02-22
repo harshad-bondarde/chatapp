@@ -42,10 +42,10 @@ const AddParticipants = () => {
                                                     }) &&
                     <div key={key} className='border p-1 w-full'>
                             
-                                <div  onClick={()=>{}} className={`bg-zinc-300 text-black flex justify-between items-center hover:text-zinc-800 rounded-xl p-2 cursor-pointer`}> 
+                                <div  onClick={()=>{}} className={`bg-zinc-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 text-black flex justify-between items-center hover:text-zinc-800 rounded-xl p-2 cursor-pointer`}> 
                                     <div className='flex items-center'>        
                                         <div className={``}>
-                                            <div className='w-12 rounded-full'>
+                                            <div className='w-8 rounded-full'>
                                                 <img src={user?.profilePhoto} alt="user-profile" />
                                             </div>
                                         </div>
@@ -84,7 +84,7 @@ const AddParticipants = () => {
 
     }
     return (
-    <div className='absolute top-16 right-36 flex flex-col items-center z-10 bg-gray-400 max-h-96 w-72 overflow-auto'>
+    <div className='absolute top-16 right-36 flex flex-col items-center z-10 max-h-96 w-60 rounded-xl p-2 overflow-auto bg-zinc-200 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30'>
         <div className='overflow-auto w-full'>
             <MapParticipants otherUsers={otherUsers}/>
         </div>
