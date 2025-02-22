@@ -58,7 +58,7 @@ const Message = ({ message }) => {
                     :
                     null
                   }
-              {message?.message!="" && <div className="chat-bubble">{message?.message}</div>}
+              {message?.message!="" && <div className="chat-bubble mt-1">{message?.message}</div>}
             </div>
             { showOption?
                 <div className='flex mr-3 space-y-1 mb-1 ml-3 items-center space-x-1'>
@@ -105,7 +105,7 @@ const Message = ({ message }) => {
                     :
                     null
                   }
-              {message?.message!="" && <div className="chat-bubble">{message?.message}</div>}
+              {message?.message!="" && <div className="chat-bubble mt-1">{message?.message}</div>}
             </div>
           </div>
         </div>

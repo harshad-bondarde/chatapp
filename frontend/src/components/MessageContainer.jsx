@@ -9,6 +9,7 @@ import axios from 'axios'
 import { deleteFromContact, setContacts } from '../Redux/userSlice'
 import toast from 'react-hot-toast'
 import GroupMessageContainer from './GroupComponents/GroupMessageContainer'
+import useGetRealTimeMessage from '../hooks/useGetRealTimeMessage'
 
 const MessageContainer = () => {
   const dispatch=useDispatch()
@@ -61,6 +62,8 @@ const MessageContainer = () => {
       setChanagingContacts(false)
     }
   }
+
+  useGetRealTimeMessage()
   return (
     <>
       { selectedUser 

@@ -8,7 +8,7 @@ import useGetRealTimeMessage from '../hooks/useGetRealTimeMessage'
 const Messages = () => {
   
   useGetMessages()
-  useGetRealTimeMessage()
+  // useGetRealTimeMessage()
   const {messages}=useSelector(state=>state.message)
   const { loadingMessageContainer }=useSelector(state=>state.message)
 

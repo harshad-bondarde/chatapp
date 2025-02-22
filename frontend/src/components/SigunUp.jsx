@@ -15,6 +15,10 @@ const SigunUp = () => {
 
     const handleSubmit=async (e)=>{
         e.preventDefault()
+        if(user.fullName=="" || user.username=="" || user.password=="" || user.confirmPassword==""){
+            toast.error("Please fill all the fields")
+            return  
+        }
         setLoading(true)
         try {
             const res=await axios.post('http://localhost:3000/api/v1/user/register',user)
@@ -49,48 +53,48 @@ const SigunUp = () => {
                     <form onSubmit={handleSubmit} action="">
 
                         <div>
-                            <label className='label p-2'>
+                            <label className='label p-2 font-semibold'>
                                 <span className=''>Fullname</span>
                             </label>
                             <input
                                 onChange={e => setUser({ ...user, fullName: e.target.value })}
-                                className='w-full input input-bordered h-10'
+                                className='w-full input input-bordered h-10 font-semibold'
                                 value={user.fullName}
                                 type="text" 
                                 placeholder='Fullname' />
                         </div>
 
                         <div>
-                            <label className='label p-2'>
+                            <label className='label p-2 font-semibold'>
                                 <span className=''>Username</span>
                             </label>
                             <input
                                 onChange={e => setUser({ ...user, username: e.target.value })}
-                                className='w-full input input-bordered h-10'
+                                className='w-full input input-bordered h-10 font-semibold'
                                 value={user.username}
                                 type="text" 
                                 placeholder='Username'
                                 autoComplete='new-username'  />
                         </div>
                         <div>
-                            <label className='label p-2'>
+                            <label className='label p-2 font-semibold'>
                                 <span className=''>Password</span>
                             </label>
                             <input
                                 onChange={e => setUser({ ...user, password: e.target.value })}
-                                className='w-full input input-bordered h-10'
+                                className='w-full input input-bordered h-10 font-semibold'
                                 value={user.password}
                                 type="password" 
                                 placeholder='Password'
                                 autoComplete='new-password'  />
                         </div>
                         <div>
-                            <label className='label p-2'>
+                            <label className='label p-2 font-semibold'>
                                 <span className=''>Confirm Password</span>
                             </label>
                             <input
                                 onChange={e => setUser({ ...user, confirmPassword: e.target.value })}
-                                className='w-full input input-bordered h-10'
+                                className='w-full input input-bordered h-10 font-semibold'
                                 value={user.confirmPassword}
                                 type="password" 
                                 placeholder='Password'
@@ -98,7 +102,7 @@ const SigunUp = () => {
                         </div>
 
                         <div className='flex justify-center space-x-2 my-3'>
-                            <div className='flex space-x-2'>
+                            <div className='flex space-x-2 font-semibold'>
                                 <div>
                                     Male
                                 </div>
@@ -122,7 +126,7 @@ const SigunUp = () => {
                             </div>
                         </div>
 
-                        <div className='flex justify-center'>
+                        <div className='flex justify-center font-semibold'>
                             Already have an account ?
                             <Link className='mx-2 text-blue-500 underline' to={"/"}>
                                 Login

@@ -1,7 +1,7 @@
 const Conversation = require("../models/conversationModel");
 const GroupMessage=require("../models/groupMessageModel")
 const cloudinary=require("cloudinary").v2
-
+const {io , getReceiverSocketId}=require("../socket/socket")
 const createGroup=async(req,res)=>{
     try {
         const {groupName}=req.body;
@@ -35,7 +35,7 @@ const getAllGroups=async(req,res)=>{
             participants:{ $in: [userId] } ,
             "groupInfo.isGroup":true
         }).select("_id").select("groupInfo.groupName")
-        console.log(groups)
+        // console.log(groups)
         const finalInfo=groups.map(group=>{
             return {
                 groupName:group.groupInfo.groupName,
@@ -58,7 +58,7 @@ const getGroupInfo=async(req,res)=>{
     try {
         const conversationId=req.params.conversationId
         
-        console.log(conversationId)
+        // console.log(conversationId)
         
         const gotConversation=await Conversation.findById(conversationId).populate({
                                                                            path:"participants",
@@ -97,7 +97,7 @@ const addParticipants=async(req,res)=>{
         await gotConversation.save()
         
         const updatedConversation=await Conversation.findById(conversationId).populate("participants").select("-password").select("-contacts")
-        console.log(updatedConversation.participants)
+        // console.log(updatedConversation.participants)
         return res.status(200).json({
             participantsInfo : updatedConversation.participants,
             message:"Users Added"
@@ -134,8 +134,8 @@ const RemoveUser=async(req,res)=>{
 }
 
 const sendGroupMessage=async(req,res)=>{
-    const userId=req.userId;
-    const {conversationId , message , image}=req.body;
+    const userId=req.userId; 
+    const {conversationId , message , image , senderId}=req.body;
     try {
         const gotConversation=await Conversation.findById(conversationId)
         if(!gotConversation){
@@ -158,15 +158,24 @@ const sendGroupMessage=async(req,res)=>{
         
         const newGroupMessage=await GroupMessage.create({
             conversationId,
-            senderId:userId,
+            senderId,
             message,
             image:cloudinaryRes?.secure_url ? cloudinaryRes.secure_url : ""
         })
 
         if(newGroupMessage){
-            console.log("sent")
+            // console.log("sent")
             gotConversation.groupMessages.push(newGroupMessage._id)
             await gotConversation.save()
+        }
+        const participants=gotConversation.participants
+        if(newGroupMessage){
+            participants.forEach(user => {
+                if(user._id!=senderId){ 
+                    const receiverSocketId=getReceiverSocketId(user._id);
+                    receiverSocketId && io.to(receiverSocketId).emit('newGroupMessage',newGroupMessage)
+                }        
+            });
         }
         return res.status(200).json({
             message:newGroupMessage

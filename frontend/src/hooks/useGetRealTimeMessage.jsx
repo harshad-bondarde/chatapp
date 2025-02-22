@@ -2,10 +2,10 @@ import { useContext, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteMessage, setMessages } from "../Redux/messageSlice"
 import { SocketContext } from "../context/SocketContext"
-
+import {addNewGroupMessage} from '../Redux/userSlice'
 const useGetRealTimeMessage = () => {
   const {socket}=useContext(SocketContext)
-  const {selectedUser , authUser}=useSelector(state=>state.user)
+  const {selectedUser , authUser ,selectedGroup}=useSelector(state=>state.user)
   const {messages}=useSelector(state=>state.message)
   const dispatch=useDispatch() 
 
@@ -24,7 +24,15 @@ const useGetRealTimeMessage = () => {
       console.log({senderId,receiverId,messageId})
         dispatch(deleteMessage(messageId))
     })
+
+    socket?.on('newGroupMessage',(newGroupMessage)=>{
+      if(selectedGroup?.conversationId==newGroupMessage?.conversationId){
+        // console.log(newGroupMessage)
+        dispatch(addNewGroupMessage(newGroupMessage))
+      }
+    })
     return () => {
+      socket?.off('newGroupMessage');
       socket?.off("newMessage");
       socket?.off("deleteMessageInConversation");
     };
