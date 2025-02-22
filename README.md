@@ -16,7 +16,8 @@ A Chat Application built with the MERN stack and Socket.io, allowing users to se
 
 - User Registration & Authentication: Secure sign-up and login
 - Real time messaging : Send and delete messages instantly
-- Contacts : Users can manage their contacts 
+- Contacts : Users can manage their contacts
+- GroupChat : Enjoy Group Chatting 
 - Image uploading : Image Storage Over cloudinary
 ## Tech Stack 🚀
  
