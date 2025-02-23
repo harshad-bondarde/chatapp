@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from "axios"
 import toast from 'react-hot-toast'
 import { useDispatch , useSelector } from 'react-redux'
+import { deleteGroupMessage } from '../../Redux/userSlice'
 
 const GroupMessage = ({message}) => {
+    const [loading,setLoading]=useState(false)
     const [showOption,setShowOption]=useState(false)
     const scroll=useRef()
     const {authUser , selectedGroupInfo}=useSelector(state=>state.user) 
@@ -17,7 +19,19 @@ const GroupMessage = ({message}) => {
     })
     
     const deleteThisMessage=async()=>{
-
+      try {
+          const response=await axios.post("http://localhost:3000/api/v1/group/deleteGroupMessage",{
+            groupMessage:message ,
+            authUserId:authUser._id
+          })
+          console.log(response.data)
+          dispatch(deleteGroupMessage(message._id))
+          toast.success("Message Deleted")
+        
+      } catch (error) {
+        console.log(error)
+        toast.error("Error while deleting the Message")
+      }
     }
 
   return (

@@ -144,6 +144,7 @@ const sendGroupMessage=async(req,res)=>{
             })
             return;
         }
+        console.log(gotConversation.participants)
 
         let cloudinaryRes=null
             if(image!=""){
@@ -171,8 +172,8 @@ const sendGroupMessage=async(req,res)=>{
         const participants=gotConversation.participants
         if(newGroupMessage){
             participants.forEach(user => {
-                if(user._id!=senderId){ 
-                    const receiverSocketId=getReceiverSocketId(user._id);
+                if(user!=senderId){ 
+                    const receiverSocketId=getReceiverSocketId(user);
                     receiverSocketId && io.to(receiverSocketId).emit('newGroupMessage',newGroupMessage)
                 }        
             });
@@ -186,11 +187,41 @@ const sendGroupMessage=async(req,res)=>{
             error:"error while sending message "+error.message
         })
     }
+}
 
-    
-    
-
-
+const deleteGroupMessage=async(req,res)=>{
+    const {groupMessage , authUserId}=req.body
+    try {
+        const conversation=await Conversation.findById(groupMessage.conversationId)
+        if(!conversation){
+            return res.status(404).json({
+                message:"Conversation not found"
+            })
+        }
+        conversation.groupMessages=conversation.groupMessages.filter(message=>message._id!=groupMessage._id)
+        await conversation.save()
+        const deletedMessage=await GroupMessage.findByIdAndDelete(groupMessage._id)
+        console.log(deletedMessage)
+        if(deletedMessage){
+            conversation.participants.forEach(user => {
+                if(user!=authUserId){
+                    const receiverSocketId=getReceiverSocketId(user)
+                    receiverSocketId && io.to(receiverSocketId).emit('deleteGroupMessage',groupMessage)
+                }
+            });
+            return res.status(200).json({
+                message:"Message Deleted"
+            })  
+        }
+        return res.status(404).json({
+            message:"Message not found"
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error:"error while deleting message "+error.message
+        })
+    }
 }
 
 
@@ -201,7 +232,8 @@ module.exports={
     getGroupInfo,
     getAllGroups,
     sendGroupMessage ,
-    addParticipants
+    addParticipants ,
+    deleteGroupMessage
 }
 
 
