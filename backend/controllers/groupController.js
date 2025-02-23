@@ -186,11 +186,35 @@ const sendGroupMessage=async(req,res)=>{
             error:"error while sending message "+error.message
         })
     }
+}
 
-    
-    
-
-
+const deleteGroupMessage=async(req,res)=>{
+    const {groupMessage}=req.body
+    try {
+        const conversation=await Conversation.findById(groupMessage.conversationId)
+        if(!conversation){
+            return res.status(404).json({
+                message:"Conversation not found"
+            })
+        }
+        conversation.groupMessages=conversation.groupMessages.filter(message=>message._id!=groupMessage._id)
+        await conversation.save()
+        const deletedMessage=await GroupMessage.findByIdAndDelete(groupMessage._id)
+        console.log(deletedMessage)
+        if(deletedMessage){
+            return res.status(200).json({
+                message:"Message Deleted"
+            })  
+        }
+        return res.status(404).json({
+            message:"Message not found"
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error:"error while deleting message "+error.message
+        })
+    }
 }
 
 
@@ -201,7 +225,8 @@ module.exports={
     getGroupInfo,
     getAllGroups,
     sendGroupMessage ,
-    addParticipants
+    addParticipants ,
+    deleteGroupMessage
 }
 
 

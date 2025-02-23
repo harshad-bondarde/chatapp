@@ -10,7 +10,7 @@ const sendMessage=async(req,res)=>{
         const senderId=req.body.authUser._id;
         const receiverId=req.params.id;
         const { message , image }=req.body;
-        console.log(message)
+        // console.log(message)
         let gotConversation=await Conversation.findOne({
             participants:{
                 $all :[senderId,receiverId]
@@ -90,43 +90,51 @@ const deleteMessage=async (req,res)=>{
     const { message ,authUser}=req.body;
     const senderId=message.senderId
     const receiverId=message.receiverId
-    const conversation=await Conversation.findOne({
-        participants:{
-            $all:[senderId,receiverId]
-        }
-    })
-    if(!conversation){
-        return res.status(404).json({
-            message:"Conversation doesn't exists"
+    try{    
+        const conversation=await Conversation.findOne({
+            participants:{
+                $all:[senderId,receiverId]
+            }
         })
-    }
-    
-    const messageIndex=conversation.messages.indexOf(message._id)
-    if(!messageIndex){
-        return res.status(404).json({
-            message:"Message not found..."
-        })
-    }
-    // console.log(conversation.messages)
-    conversation.messages.splice(messageIndex,1);
-    await conversation.save();
-    console.log(conversation.messages)
-    // in progress ....
-    if(messageIndex){
-        let anotherUserId=null;
-        if(authUser._id==senderId){
-            anotherUserId=receiverId
-        }else{
-            anotherUserId=senderId
+        if(!conversation){
+            return res.status(404).json({
+                message:"Conversation doesn't exists"
+            })
         }
-        const anotherUserSocketId=getReceiverSocketId(anotherUserId)
-        console.log("sending to ",anotherUserId)
-        io.to(anotherUserSocketId).emit('deleteMessageInConversation',{ senderId , receiverId ,  messageId:message._id })
+        
+        const messageIndex=conversation.messages.indexOf(message._id)
+        if(!messageIndex){
+            return res.status(404).json({
+                message:"Message not found..."
+            })
+        }
+        // console.log(conversation.messages)
+        conversation.messages.splice(messageIndex,1);
+        await conversation.save();
+        const deletedMessage=await Message.findByIdAndDelete(message._id)
+        // in progress ....
+        if(messageIndex){
+            let anotherUserId=null;
+            if(authUser._id==senderId){
+                anotherUserId=receiverId
+            }else{
+                anotherUserId=senderId
+            }
+            const anotherUserSocketId=getReceiverSocketId(anotherUserId)
+            console.log("sending to ",anotherUserId)
+            io.to(anotherUserSocketId).emit('deleteMessageInConversation',{ senderId , receiverId ,  messageId:message._id })
+        }
+
+        return res.status(200).json({
+            message:"Message Deleted"
+        })
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({
+            error:"Error while deleting message "+error.message
+        })  
     }
 
-    return res.status(200).json({
-        message:"Message Deleted"
-    })
 }
 
 module.exports={
