@@ -21,7 +21,8 @@ const GroupMessage = ({message}) => {
     const deleteThisMessage=async()=>{
       try {
           const response=await axios.post("http://localhost:3000/api/v1/group/deleteGroupMessage",{
-            groupMessage:message
+            groupMessage:message ,
+            authUserId:authUser._id
           })
           console.log(response.data)
           dispatch(deleteGroupMessage(message._id))
