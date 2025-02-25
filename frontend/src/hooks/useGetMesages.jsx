@@ -3,6 +3,7 @@ import axios from "axios"
 import  { useDispatch, useSelector }  from 'react-redux'
 import { setMessages } from '../Redux/messageSlice'
 import { setLoadingMessageContainer } from '../Redux/messageSlice'
+import url from '../url/url'
 const useGetMessages = () => { 
 
     const {selectedUser}=useSelector(state=>state.user)
@@ -16,7 +17,7 @@ const useGetMessages = () => {
                 return
         
             try {
-                const res=await axios.get(`http://localhost:3000/api/v1/message/${selectedUser?._id}`)  
+                const res=await axios.get(`${url}/api/v1/message/${selectedUser?._id}`)  
     
                 // console.log(res.data)          
                 dispatch(setMessages(res.data.messages))  

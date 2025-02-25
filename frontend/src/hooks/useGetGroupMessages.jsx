@@ -4,6 +4,7 @@ import { setLoadingMessageContainer } from '../Redux/messageSlice'
 import { setSelctedGroupInfo } from '../Redux/userSlice'
 import axios from "axios"
 import toast from 'react-hot-toast'
+import url from '../url/url'
 
 const useGetGroupMessages = () => {
     const {selectedGroup}=useSelector(state=>state.user)
@@ -14,7 +15,7 @@ const useGetGroupMessages = () => {
         dispatch(setLoadingMessageContainer(true))
         const getMessages=async()=>{
             try {
-                const response=await axios.get(`http://localhost:3000/api/v1/group/getGroupInfo/${selectedGroup.conversationId}`)
+                const response=await axios.get(`${url}/api/v1/group/getGroupInfo/${selectedGroup.conversationId}`)
                 console.log(response)
                 if(response.status==200){
                     dispatch(setSelctedGroupInfo(response.data.conversationInfo))

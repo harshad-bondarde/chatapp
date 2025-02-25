@@ -6,6 +6,7 @@ import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessages } from '../Redux/messageSlice';
 import toast from 'react-hot-toast';
+import url from '../url/url'
 
 const SendInput = () => {
     const dispatch=useDispatch()
@@ -27,7 +28,7 @@ const SendInput = () => {
         }
         setLoading(true)
         try {
-            const res=await axios.post(`http://localhost:3000/api/v1/message/send/${selectedUser._id}`,{
+            const res=await axios.post(`${url}/api/v1/message/send/${selectedUser._id}`,{
                 message,
                 image,
                 authUser

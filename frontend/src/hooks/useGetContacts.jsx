@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setContacts } from '../Redux/userSlice'
 import axios from "axios"
+import url from '../url/url'
 
 const useGetContacts = () => {
     const dispatch=useDispatch()
@@ -9,7 +10,7 @@ const useGetContacts = () => {
         axios.defaults.withCredentials=true
         const fetchContacts=async()=>{
             try {
-                const response=await axios.get("http://localhost:3000/api/v1/user/getContacts")
+                const response=await axios.get(`${url}/api/v1/user/getContacts`)
                 if(response.status==200){
                     dispatch(setContacts(response.data.contactUsersInfo))
                 }else{

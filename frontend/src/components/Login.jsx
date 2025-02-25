@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 
 import { setAllowewdToAddMembers, setAuthUser, setSelectedMembers } from '../Redux/userSlice'
+import url from '../url/url'
 const Login = () => {
   const navigate=useNavigate()
   const dispatch=useDispatch();
@@ -21,9 +22,11 @@ const Login = () => {
       toast.error("Please fill all the fields")
       return
     }
+    
+    console.log(url)
     setLoading(true)
     try {
-        const res=await axios.post('http://localhost:3000/api/v1/user/login',user)
+        const res=await axios.post(`${url}/api/v1/user/login`,user)
         
         // console.log(res.data)
         dispatch(setAuthUser(res.data))
@@ -39,7 +42,7 @@ const Login = () => {
         }
     } catch (error) {
       console.log(error)
-      toast.error(error.response.data.message || "Unknown Error")
+      toast.error(error?.response?.data?.message || "Unknown Error")
     }finally{
       setLoading(false)
     }

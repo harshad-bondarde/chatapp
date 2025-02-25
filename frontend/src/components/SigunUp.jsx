@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link ,useNavigate} from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import url from '../url/url'
 const SigunUp = () => {
     const navigate=useNavigate()
     const [user, setUser] = useState({
@@ -21,7 +22,7 @@ const SigunUp = () => {
         }
         setLoading(true)
         try {
-            const res=await axios.post('http://localhost:3000/api/v1/user/register',user)
+            const res=await axios.post(`${url}/api/v1/user/register`,user)
             console.log(res)
             if(res){
                 setLoading(false)

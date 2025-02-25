@@ -3,6 +3,7 @@ import axios from "axios"
 import toast from 'react-hot-toast'
 import { useDispatch , useSelector } from 'react-redux'
 import { deleteMessage } from '../Redux/messageSlice'
+import url from '../url/url'
 
 const Message = ({ message }) => {
   const [showOption,setShowOption]=useState(false)
@@ -19,7 +20,7 @@ const Message = ({ message }) => {
 
   const deleteThisMessage=async ()=>{
     try{  
-        const response=await axios.post(`http://localhost:3000/api/v1/message/delete`,{
+        const response=await axios.post(`${url}/api/v1/message/delete`,{
           message,
           authUser
         })

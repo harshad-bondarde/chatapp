@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deselectMember, addSelectedMembers, setSelctedGroupInfo, setAllowewdToAddMembers, setSelectedMembers, addNewParticipants } from '../../Redux/userSlice'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import url from '../../url/url'
 
 const AddParticipants = () => {
     const [loading,setLoading]=useState(false)
@@ -17,7 +18,7 @@ const AddParticipants = () => {
         }
         try {
             setLoading(true)
-            const response=await axios.post('http://localhost:3000/api/v1/group/addParticipants',{
+            const response=await axios.post(`${url}/api/v1/group/addParticipants`,{
                 conversationId:selectedGroup.conversationId,
                 usersToAdd:selectedMembers
             })
