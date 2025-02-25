@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
+import url from "../url/url";
 
 export const SocketContext=createContext()
 
@@ -11,7 +12,7 @@ export const SocketContextProvider=({ children })=>{
 
     useEffect(()=>{
         if(authUser){
-            const socket=io(`http://localhost:3000`,{
+            const socket=io(`${url}`,{
                 query:{
                     userId:authUser._id
                 }
