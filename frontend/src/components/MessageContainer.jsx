@@ -10,6 +10,7 @@ import { deleteFromContact, setContacts } from '../Redux/userSlice'
 import toast from 'react-hot-toast'
 import GroupMessageContainer from './GroupComponents/GroupMessageContainer'
 import useGetRealTimeMessage from '../hooks/useGetRealTimeMessage'
+import url from '../url/url'
 
 const MessageContainer = () => {
   const dispatch=useDispatch()
@@ -23,7 +24,7 @@ const MessageContainer = () => {
     try {
       setChanagingContacts(true)
       axios.defaults.withCredentials=true
-      const response=await axios.post("http://localhost:3000/api/v1/user/addToContact",{
+      const response=await axios.post(`${url}/api/v1/user/addToContact`,{
         userToAdd
       })
       if(response.status==200){
@@ -45,7 +46,7 @@ const MessageContainer = () => {
     try {
       setChanagingContacts(true)
       axios.defaults.withCredentials=true
-      const response=await axios.post("http://localhost:3000/api/v1/user/deleteFromContacts",{
+      const response=await axios.post(`${url}/api/v1/user/deleteFromContacts`,{
         userToDelete
       })
       if(response.status==200){

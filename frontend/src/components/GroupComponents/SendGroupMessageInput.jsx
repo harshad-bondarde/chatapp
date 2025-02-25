@@ -6,6 +6,7 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewGroupMessage } from '../../Redux/userSlice';
+import url from '../../url/url'
 
 const SendGroupMessageInput = () => {
   const dispatch=useDispatch()
@@ -42,7 +43,7 @@ const SendGroupMessageInput = () => {
     try {
       setLoading(true)
       console.log("HIasd")
-      const response=await axios.post("http://localhost:3000/api/v1/group/sendGroupMessage",{
+      const response=await axios.post(`${url}/api/v1/group/sendGroupMessage`,{
         conversationId:selectedGroup.conversationId,
         message,
         image,

@@ -3,6 +3,7 @@ import axios from "axios"
 import toast from 'react-hot-toast'
 import { useDispatch , useSelector } from 'react-redux'
 import { deleteGroupMessage } from '../../Redux/userSlice'
+import url from '../../url/url'
 
 const GroupMessage = ({message}) => {
     const [loading,setLoading]=useState(false)
@@ -20,7 +21,7 @@ const GroupMessage = ({message}) => {
     
     const deleteThisMessage=async()=>{
       try {
-          const response=await axios.post("http://localhost:3000/api/v1/group/deleteGroupMessage",{
+          const response=await axios.post(`${url}/api/v1/group/deleteGroupMessage`,{
             groupMessage:message ,
             authUserId:authUser._id
           })

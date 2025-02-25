@@ -9,6 +9,7 @@ import { addGroup } from '../Redux/userSlice';
 import useGetGroups from '../hooks/useGetGroups';
 import toast from "react-hot-toast"
 import axios from 'axios';
+import url from '../url/url'
 
 const OtherUsers = ({thiskey ,setKey}) => {
   // console.log(thiskey)
@@ -30,7 +31,7 @@ const OtherUsers = ({thiskey ,setKey}) => {
 
     try {
       setLoading(true)
-      const response=await axios.post("http://localhost:3000/api/v1/group/createGroup",{
+      const response=await axios.post(`${url}/api/v1/group/createGroup`,{
         groupName
       })
       console.log(response)

@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 import { useNavigate } from 'react-router-dom';
 import { setAuthUser, setContacts, setGroups, setOtherUsers, setSearchedUsers ,setSelectedUser} from '../Redux/userSlice';
 import { useDispatch,useSelector } from 'react-redux';
+import url from '../url/url'
 
 
 const SideBar = () => {
@@ -21,7 +22,7 @@ const SideBar = () => {
     const logOutHandler=async ()=>{
         setLoading(true)
         try {
-            const res=await axios.get("http://localhost:3000/api/v1/user/logout")
+            const res=await axios.get(`${url}/api/v1/user/logout`)
             if(res){
                 setLoading(false)
             }
