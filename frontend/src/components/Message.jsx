@@ -7,6 +7,7 @@ import url from '../url/url'
 
 const Message = ({ message }) => {
   const [showOption,setShowOption]=useState(false)
+  const [loading,setLoading]=useState(false)
   const userId=useSelector(state=>state.user.authUser._id)
   const {authUser,selectedUser}=useSelector(state=>state.user) 
   const dispatch=useDispatch()
@@ -20,7 +21,9 @@ const Message = ({ message }) => {
 
   const deleteThisMessage=async ()=>{
     try{  
-        const response=await axios.post(`${url}/api/v1/message/delete`,{
+      await setLoading(true)
+      await setShowOption(true)  
+      const response=await axios.post(`${url}/api/v1/message/delete`,{
           message,
           authUser
         })
@@ -34,6 +37,9 @@ const Message = ({ message }) => {
         console.log(e);
         toast.error("Couldn't delete the message")
         return;
+      }finally{
+        setLoading(false)
+        setShowOption(false)
       }
   }
   return (
@@ -62,11 +68,17 @@ const Message = ({ message }) => {
               {message?.message!="" && <div className="chat-bubble mt-1">{message?.message}</div>}
             </div>
             { showOption?
-                <div className='flex mr-3 space-y-1 mb-1 ml-3 items-center space-x-1'>
-                  <div onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
-                      Delete
-                  </div>           
-            </div>
+                <div className='flex mr-3 space-y-1 mb-1 mt-1 ml-3 items-center space-x-1'>
+                  <button disabled={loading} onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
+                        { !loading ?
+                          <>
+                            Delete
+                          </>
+                          :
+                          <span className="loading loading-spinner loading-xs"></span>
+                        }
+                  </button>           
+                </div>
               :
                 <>
                 </>
@@ -85,11 +97,17 @@ const Message = ({ message }) => {
           </div>
           
           
-          <div className='flex'>
+          <div className='flex items-center '>
             { showOption?
-                <div className='flex mr-3 space-y-1 mb-1 items-center space-x-1'>
+                <div className='flex mr-3 mt-9 space-y-1 mb-1 items-center space-x-1 '>
                     <div onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
-                        Delete
+                        { !loading ?
+                          <>
+                            Delete
+                          </>
+                          :
+                          <span className="loading loading-spinner loading-xs"></span>
+                        }
                     </div>           
                 </div>
               :

@@ -21,6 +21,8 @@ const GroupMessage = ({message}) => {
     
     const deleteThisMessage=async()=>{
       try {
+        await setLoading(true)
+        await setShowOption(true)
           const response=await axios.post(`${url}/api/v1/group/deleteGroupMessage`,{
             groupMessage:message ,
             authUserId:authUser._id
@@ -32,6 +34,9 @@ const GroupMessage = ({message}) => {
       } catch (error) {
         console.log(error)
         toast.error("Error while deleting the Message")
+      }finally{
+        setLoading(false)
+        setShowOption(false)
       }
     }
 
@@ -62,9 +67,15 @@ const GroupMessage = ({message}) => {
             </div>
             { showOption?
                 <div className='flex mr-3 space-y-1 mb-1 ml-3 items-center space-x-1'>
-                  <div onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
-                      Delete
-                  </div>           
+                  <button disabled={loading} onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
+                      { !loading ?
+                          <>
+                            Delete
+                          </>
+                          :
+                          <span className="loading loading-spinner loading-xs"></span>
+                        }
+                  </button>           
             </div>
               :
                 <>
@@ -86,10 +97,16 @@ const GroupMessage = ({message}) => {
           
           <div className='flex'>
             { showOption?
-                <div className='flex mr-3 space-y-1 mb-1 items-center space-x-1'>
-                    <div onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
-                        Delete
-                    </div>           
+                <div className='flex mr-3 space-y-1 mt-8 mb-1 items-center space-x-1'>
+                    <button disabled={loading} onClick={()=>deleteThisMessage()} className='cursor-pointer p-2 border-red-400 hover:shadow-red-500 hover:shadow-md rounded-lg bg-red-500 text-center font-medium text-white text-sm'>
+                        { !loading ?
+                          <>
+                            Delete
+                          </>
+                          :
+                          <span className="loading loading-spinner loading-xs"></span>
+                        } 
+                    </button>           
                 </div>
               :
                 <>
