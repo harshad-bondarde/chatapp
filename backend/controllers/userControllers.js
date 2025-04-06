@@ -148,7 +148,7 @@ const deleteFromContacts=async(req,res)=>{
     try {
         const user=await User.findById(userId)
         user.contacts=user.contacts.filter(user=>user._id!=userToDelete._id)
-        user.save()
+        await user.save()
         return res.status(200).json({
             message:"user deleted"
         })
